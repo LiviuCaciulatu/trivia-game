@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Game.css";
 
 const fetchCountriesRoFull = async () => {
@@ -37,11 +37,15 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const Game = () => {
+const Game = ({ initialPoints, username, difficulty }) => {
+  const [points, setPoints] = useState(initialPoints)
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [options, setOptions] = useState([]);
   const [message, setMessage] = useState("");
+  const [timer, setTimer] = useState(null);
+  const [timeLeft, setTimeleft] = useState(0);
+  const timerRef = useRef(null)
   const [usedCountries, setUsedCountries] = useState([]);
   const [isTrueFalse, setIsTrueFalse] = useState(false);
 
@@ -57,8 +61,7 @@ const Game = () => {
       return;
     }
 
-    // Randomly decide between a True/False question and a multiple-choice question
-    const questionType = Math.random() > 0.5; // 50% chance for each type of question
+    const questionType = Math.random() > 0.5;
 
     if (questionType) {
       generateTrueFalseQuestion(allCountries, usedCountries);
@@ -73,9 +76,8 @@ const Game = () => {
 
   const generateTrueFalseQuestion = (allCountries, usedCountries) => {
     const correctCountry = getRandomCountry(allCountries, usedCountries);
-    const isCorrect = Math.random() > 0.5; // 50% chance the statement is true
+    const isCorrect = Math.random() > 0.5;
 
-    // If true, show correct capital; if false, show a random incorrect capital
     const displayedCapital = isCorrect
       ? correctCountry.capital
       : getRandomCountry(allCountries, usedCountries).capital;
@@ -87,6 +89,8 @@ const Game = () => {
     setOptions(["True", "False"]);
     setIsTrueFalse(true);
     setMessage("");
+    stopTimmer();
+    startTimer();
   };
 
   const generateMultipleChoiceQuestion = (allCountries, usedCountries) => {
@@ -108,9 +112,27 @@ const Game = () => {
     setOptions(allOptions);
     setIsTrueFalse(false);
     setMessage("");
+    stopTimmer();
+    startTimer();
+  };
+
+  const handleCorrectAnswer = async () => {
+    setPoints(points + 1);
+
+    try {
+      await fetch("http://localhost:5000/update-points", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, points: 1 }),
+      });
+    } catch (error) {
+      console.error("Error updating points:", error);
+    }
   };
 
   const handleOptionClick = (option) => {
+    stopTimmer();
+
     if (isTrueFalse) {
       const actualCapital = countries.find(
         (c) => c.country === selectedCountry.country
@@ -121,6 +143,7 @@ const Game = () => {
 
       if (isCorrect) {
         setMessage("Good!");
+        handleCorrectAnswer();
       } else {
         setMessage(
           `Incorrect. The correct answer is ${
@@ -131,6 +154,7 @@ const Game = () => {
     } else {
       if (option === selectedCountry.capital) {
         setMessage("Good!");
+        handleCorrectAnswer();
       } else {
         setMessage(
           `Incorrect. The capital of ${selectedCountry.country} is ${selectedCountry.capital}.`
@@ -138,45 +162,79 @@ const Game = () => {
       }
     }
 
-    // Move to the next question after a short delay
     setTimeout(() => {
       setUsedCountries((prevUsed) => {
         const newUsedCountries = [...prevUsed, selectedCountry];
         loadNewQuestion(countries, newUsedCountries);
         return newUsedCountries;
       });
-    }, 2000); // 2-second delay to allow the user to read the feedback
+    }, 2000);
   };
 
-  return (
-    <div className="game-container">
-      {selectedCountry && usedCountries.length < countries.length ? (
-        <div>
-          <h1>{isTrueFalse ? "True or False!" : "Guess the Capital!"}</h1>
-          <p>
-            {isTrueFalse
-              ? `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
-              : `What is the capital of ${selectedCountry.country}?`}
-          </p>
-          <div className="options-container">
-            {options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleOptionClick(option)}
-                className="option-button"
-                disabled={message !== ""} // Disable buttons after selection to prevent further clicks
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-          {message && <p className="message">{message}</p>}
+  const startTimer = () =>{
+    let duration = 0;
+    if(difficulty === "intermediate"){
+      duration = 10;
+    } else if (difficulty === "hard"){
+      duration = 5;
+    }
+
+    if (duration>0){
+      setTimeleft(duration);
+      timerRef.current = setInterval(()=>{
+        setTimeleft((prevTime)=>{
+          if (prevTime===1){
+            clearInterval(timerRef.current);
+            handleOptionClick(null);
+            return 0;
+          }
+          return prevTime - 1;
+        })
+      },1000)
+    }
+  }
+
+  const stopTimmer = () =>{
+    clearInterval(timerRef.current);
+  }
+
+return (
+  <div className="game-container">
+    <h1>Trivia Game</h1>
+    <h3>Player: {username}</h3>
+    <h3>Points: {points}</h3>
+
+    {difficulty !== "novice" && (
+      <h4>Time left: {timeLeft} seconds</h4>
+    )}
+
+    {selectedCountry && usedCountries.length < countries.length ? (
+      <div>
+        <h2>{isTrueFalse ? "True or False!" : "Guess the Capital!"}</h2>
+        <p>
+          {isTrueFalse
+            ? `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
+            : `What is the capital of ${selectedCountry.country}?`}
+        </p>
+        <div className="options-container">
+          {options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleOptionClick(option)}
+              className="option-button"
+              disabled={message !== ""}
+            >
+              {option}
+            </button>
+          ))}
         </div>
-      ) : (
-        <p className="message">{message}</p>
-      )}
-    </div>
-  );
+        {message && <p className="message">{message}</p>}
+      </div>
+    ) : (
+      <p className="message">{message}</p>
+    )}
+  </div>
+);
 };
 
 export default Game;

@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import "./SignIn.css"
 
-const SignIn = ({onLoginSucces}) => {
+const SignIn = ({ onLoginSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch("http://localhost:5000/signin", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-      if(response.ok){
-        onLoginSucces();
-      } else {
-        setMessage("invalid username or password")
-      }
+
       const data = await response.json();
-      setMessage(data.message);
+
+      if (response.ok) {
+        onLoginSuccess(username, data.points);
+      } else {
+        setMessage(data.message);
+      }
     } catch (error) {
       setMessage("Error during sign-in.");
     }
@@ -30,7 +30,7 @@ const SignIn = ({onLoginSucces}) => {
 
   return (
     <div>
-      <h2>Sign In!</h2>
+      <h2>Sign In</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -52,3 +52,4 @@ const SignIn = ({onLoginSucces}) => {
 };
 
 export default SignIn;
+
