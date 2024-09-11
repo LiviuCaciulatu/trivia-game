@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Game.css";
 
 const fetchCountriesRoFull = async () => {
@@ -37,17 +38,19 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const Game = ({ initialPoints, username, difficulty }) => {
-  const [points, setPoints] = useState(initialPoints)
+const Game = ({ initialPoints, username, difficulty, onSignOut }) => {
+  const [points, setPoints] = useState(initialPoints);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [options, setOptions] = useState([]);
   const [message, setMessage] = useState("");
   const [timer, setTimer] = useState(null);
-  const [timeLeft, setTimeleft] = useState(0);
-  const timerRef = useRef(null)
+  const [timeLeft, setTimeLeft] = useState(0);
+  const timerRef = useRef(null);
   const [usedCountries, setUsedCountries] = useState([]);
   const [isTrueFalse, setIsTrueFalse] = useState(false);
+
+  const navigate = useNavigate();
 
   const loadCountries = async () => {
     const fetchedCountries = await fetchCountriesRoFull();
@@ -58,6 +61,7 @@ const Game = ({ initialPoints, username, difficulty }) => {
   const loadNewQuestion = (allCountries, usedCountries) => {
     if (usedCountries.length === allCountries.length) {
       setMessage("Great job! You've answered all the questions!");
+      stopTimer();
       return;
     }
 
@@ -89,7 +93,7 @@ const Game = ({ initialPoints, username, difficulty }) => {
     setOptions(["True", "False"]);
     setIsTrueFalse(true);
     setMessage("");
-    stopTimmer();
+    stopTimer();
     startTimer();
   };
 
@@ -112,18 +116,19 @@ const Game = ({ initialPoints, username, difficulty }) => {
     setOptions(allOptions);
     setIsTrueFalse(false);
     setMessage("");
-    stopTimmer();
+    stopTimer();
     startTimer();
   };
 
   const handleCorrectAnswer = async () => {
-    setPoints(points + 1);
+    const newPoints = points + 1;
+    setPoints(newPoints);
 
     try {
       await fetch("http://localhost:5000/update-points", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, points: 1 }),
+        body: JSON.stringify({ username, points: newPoints }),
       });
     } catch (error) {
       console.error("Error updating points:", error);
@@ -131,7 +136,7 @@ const Game = ({ initialPoints, username, difficulty }) => {
   };
 
   const handleOptionClick = (option) => {
-    stopTimmer();
+    stopTimer();
 
     if (isTrueFalse) {
       const actualCapital = countries.find(
@@ -171,70 +176,87 @@ const Game = ({ initialPoints, username, difficulty }) => {
     }, 2000);
   };
 
-  const startTimer = () =>{
+  const startTimer = () => {
     let duration = 0;
-    if(difficulty === "intermediate"){
+    if (difficulty === "intermediate") {
       duration = 10;
-    } else if (difficulty === "hard"){
+    } else if (difficulty === "hard") {
       duration = 5;
     }
 
-    if (duration>0){
-      setTimeleft(duration);
-      timerRef.current = setInterval(()=>{
-        setTimeleft((prevTime)=>{
-          if (prevTime===1){
+    if (duration > 0) {
+      setTimeLeft(duration);
+      timerRef.current = setInterval(() => {
+        setTimeLeft((prevTime) => {
+          if (prevTime === 1) {
             clearInterval(timerRef.current);
             handleOptionClick(null);
             return 0;
           }
           return prevTime - 1;
-        })
-      },1000)
+        });
+      }, 1000);
     }
-  }
+  };
 
-  const stopTimmer = () =>{
+  const stopTimer = () => {
     clearInterval(timerRef.current);
-  }
+  };
 
-return (
-  <div className="game-container">
-    <h1>Trivia Game</h1>
-    <h3>Player: {username}</h3>
-    <h3>Points: {points}</h3>
+  const handleExitGame = () => {
+    stopTimer();
+    navigate("/select-difficulty");
+  };
 
-    {difficulty !== "novice" && (
-      <h4>Time left: {timeLeft} seconds</h4>
-    )}
+  const handleSignOutClick = () => {
+    stopTimer();
+    onSignOut();
+  };
 
-    {selectedCountry && usedCountries.length < countries.length ? (
-      <div>
-        <h2>{isTrueFalse ? "True or False!" : "Guess the Capital!"}</h2>
-        <p>
-          {isTrueFalse
-            ? `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
-            : `What is the capital of ${selectedCountry.country}?`}
-        </p>
-        <div className="options-container">
-          {options.map((option, index) => (
-            <button
-              key={index}
-              onClick={() => handleOptionClick(option)}
-              className="option-button"
-              disabled={message !== ""}
-            >
-              {option}
-            </button>
-          ))}
+  return (
+    <div className="game-container">
+      <h1>Trivia Game</h1>
+      <h3>Player: {username}</h3>
+      <h3>Points: {points}</h3>
+
+      {difficulty !== "novice" && <h4>Time left: {timeLeft} seconds</h4>}
+
+      {selectedCountry && usedCountries.length < countries.length ? (
+        <div>
+          <h2>{isTrueFalse ? "True or False!" : "Guess the Capital!"}</h2>
+          <p>
+            {isTrueFalse
+              ? `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
+              : `What is the capital of ${selectedCountry.country}?`}
+          </p>
+          <div className="options-container">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleOptionClick(option)}
+                className="option-button"
+                disabled={message !== ""}
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+          {message && <p className="message">{message}</p>}
         </div>
-        {message && <p className="message">{message}</p>}
+      ) : (
+        <p className="message">{message}</p>
+      )}
+
+      <div className="navigation-buttons">
+        <button onClick={handleExitGame} className="exit-button">
+          Exit Game
+        </button>
+        <button onClick={handleSignOutClick} className="signout-button">
+          Sign Out
+        </button>
       </div>
-    ) : (
-      <p className="message">{message}</p>
-    )}
-  </div>
-);
+    </div>
+  );
 };
 
 export default Game;
