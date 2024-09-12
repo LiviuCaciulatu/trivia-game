@@ -20,7 +20,6 @@ const SignUp = ({ onSignUpSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Trim inputs
     const trimmedUsername = username.trim();
     const trimmedPassword = password.trim();
 

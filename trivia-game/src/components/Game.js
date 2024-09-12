@@ -38,7 +38,7 @@ const shuffleArray = (array) => {
   return array;
 };
 
-const Game = ({ initialPoints, username, difficulty, onSignOut }) => {
+const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
   const [points, setPoints] = useState(initialPoints);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -211,13 +211,14 @@ const Game = ({ initialPoints, username, difficulty, onSignOut }) => {
   const handleSignOutClick = () => {
     stopTimer();
     onSignOut();
+    navigate("/select-language")
   };
 
   return (
     <div className="game-container">
-      <h1>Trivia Game</h1>
-      <h3>Player: {username}</h3>
-      <h3>Points: {points}</h3>
+<h1>{language === "ro" ? "Joc Trivia" : "Trivia Game"}</h1>
+      <h3>{language === "ro" ? `Jucător: ${username}` : `Player: ${username}`}</h3>
+      <h3>{language === "ro" ? `Puncte: ${points}` : `Points: ${points}`}</h3>
 
       {difficulty !== "novice" && <h4>Time left: {timeLeft} seconds</h4>}
 
@@ -247,12 +248,12 @@ const Game = ({ initialPoints, username, difficulty, onSignOut }) => {
         <p className="message">{message}</p>
       )}
 
-      <div className="navigation-buttons">
+<div className="navigation-buttons">
         <button onClick={handleExitGame} className="exit-button">
-          Exit Game
+          {language === "ro" ? "Iesi din joc" : "Exit Game"}
         </button>
         <button onClick={handleSignOutClick} className="signout-button">
-          Sign Out
+          {language === "ro" ? "Deconectare" : "Sign Out"}
         </button>
       </div>
     </div>
