@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import "./SignIn.css"
+import "./SignIn.css";
+import Translations from "../Translations";
 
-const SignIn = ({ onLoginSuccess }) => {
+const SignIn = ({ onLoginSuccess, language }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -24,27 +25,27 @@ const SignIn = ({ onLoginSuccess }) => {
         setMessage(data.message);
       }
     } catch (error) {
-      setMessage("Error during sign-in.");
+      setMessage(Translations[language].error || "Error during sign-in.");
     }
   };
 
   return (
     <div>
-      <h2>Sign In</h2>
+      <h2>{Translations[language].signIn}</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
+          placeholder={Translations[language].usernamePlaceholder || "Username"}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder={Translations[language].passwordPlaceholder || "Password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Sign In</button>
+        <button type="submit">{Translations[language].signIn}</button>
       </form>
       {message && <p>{message}</p>}
     </div>
@@ -52,4 +53,5 @@ const SignIn = ({ onLoginSuccess }) => {
 };
 
 export default SignIn;
+
 

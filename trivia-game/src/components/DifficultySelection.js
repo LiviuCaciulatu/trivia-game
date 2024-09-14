@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Translations from "../Translations";
 
-const DifficultySelection = ({ selectDifficulty }) => {
+const DifficultySelection = ({ selectDifficulty, language }) => {
   const navigate = useNavigate();
 
   const handleDifficultySelect = (level) => {
@@ -11,13 +12,20 @@ const DifficultySelection = ({ selectDifficulty }) => {
 
   return (
     <div>
-      <h2>Select Difficulty</h2>
-      <button onClick={() => handleDifficultySelect("novice")}>Novice</button>
-      <button onClick={() => handleDifficultySelect("intermediate")}>Intermediate</button>
-      <button onClick={() => handleDifficultySelect("hard")}>Hard</button>
+      <h2>{Translations[language].difficulty}</h2>
+      <button onClick={() => handleDifficultySelect("novice")}>
+        {Translations[language].easy || "Easy"}
+      </button>
+      <button onClick={() => handleDifficultySelect("intermediate")}>
+        {Translations[language].intermediate || "Intermediate"}
+      </button>
+      <button onClick={() => handleDifficultySelect("hard")}>
+        {Translations[language].hard || "Hard"}
+      </button>
     </div>
   );
 };
 
 export default DifficultySelection;
+
 

@@ -60,7 +60,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
 
   const loadNewQuestion = (allCountries, usedCountries) => {
     if (usedCountries.length === allCountries.length) {
-      setMessage("Great job! You've answered all the questions!");
+      setMessage(language === "ro" ? "Felicitări! Ai răspuns la toate întrebările!" : "Great job! You've answered all the questions!");
       stopTimer();
       return;
     }
@@ -90,7 +90,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
       country: correctCountry.country,
       capital: displayedCapital,
     });
-    setOptions(["True", "False"]);
+    setOptions([language === "ro" ? "Adevărat" : "True", language === "ro" ? "Fals" : "False"]);
     setIsTrueFalse(true);
     setMessage("");
     stopTimer();
@@ -143,26 +143,32 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
         (c) => c.country === selectedCountry.country
       ).capital;
       const isCorrect =
-        (option === "True" && selectedCountry.capital === actualCapital) ||
-        (option === "False" && selectedCountry.capital !== actualCapital);
+        (option === (language === "ro" ? "Adevărat" : "True") && selectedCountry.capital === actualCapital) ||
+        (option === (language === "ro" ? "Fals" : "False") && selectedCountry.capital !== actualCapital);
 
       if (isCorrect) {
-        setMessage("Good!");
+        setMessage(language === "ro" ? "Corect!" : "Good!");
         handleCorrectAnswer();
       } else {
         setMessage(
-          `Incorrect. The correct answer is ${
-            selectedCountry.capital === actualCapital ? "True" : "False"
-          }. ${actualCapital} is the capital of ${selectedCountry.country}.`
+          language === "ro"
+            ? `Greșit. Răspunsul corect este ${
+                selectedCountry.capital === actualCapital ? "Adevărat" : "Fals"
+              }. Capitala ${selectedCountry.country} este ${actualCapital}.`
+            : `Incorrect. The correct answer is ${
+                selectedCountry.capital === actualCapital ? "True" : "False"
+              }. ${actualCapital} is the capital of ${selectedCountry.country}.`
         );
       }
     } else {
       if (option === selectedCountry.capital) {
-        setMessage("Good!");
+        setMessage(language === "ro" ? "Corect!" : "Good!");
         handleCorrectAnswer();
       } else {
         setMessage(
-          `Incorrect. The capital of ${selectedCountry.country} is ${selectedCountry.capital}.`
+          language === "ro"
+            ? `Greșit. Capitala ${selectedCountry.country} este ${selectedCountry.capital}.`
+            : `Incorrect. The capital of ${selectedCountry.country} is ${selectedCountry.capital}.`
         );
       }
     }
@@ -216,18 +222,24 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
 
   return (
     <div className="game-container">
-<h1>{language === "ro" ? "Joc Trivia" : "Trivia Game"}</h1>
+      <h1>{language === "ro" ? "Joc Trivia" : "Trivia Game"}</h1>
       <h3>{language === "ro" ? `Jucător: ${username}` : `Player: ${username}`}</h3>
       <h3>{language === "ro" ? `Puncte: ${points}` : `Points: ${points}`}</h3>
 
-      {difficulty !== "novice" && <h4>Time left: {timeLeft} seconds</h4>}
+      {difficulty !== "novice" && (
+        <h4>{language === "ro" ? `Timp rămas: ${timeLeft} secunde` : `Time left: ${timeLeft} seconds`}</h4>
+      )}
 
       {selectedCountry && usedCountries.length < countries.length ? (
         <div>
-          <h2>{isTrueFalse ? "True or False!" : "Guess the Capital!"}</h2>
+          <h2>{isTrueFalse ? (language === "ro" ? "Adevărat sau Fals!" : "True or False!") : (language === "ro" ? "Ghiciți capitala!" : "Guess the Capital!")}</h2>
           <p>
             {isTrueFalse
-              ? `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
+              ? language === "ro"
+                ? `Este ${selectedCountry.capital} capitala ${selectedCountry.country}?`
+                : `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
+              : language === "ro"
+              ? `Care este capitala ${selectedCountry.country}?`
               : `What is the capital of ${selectedCountry.country}?`}
           </p>
           <div className="options-container">
@@ -248,9 +260,9 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
         <p className="message">{message}</p>
       )}
 
-<div className="navigation-buttons">
+      <div className="navigation-buttons">
         <button onClick={handleExitGame} className="exit-button">
-          {language === "ro" ? "Iesi din joc" : "Exit Game"}
+          {language === "ro" ? "Ieși din joc" : "Exit Game"}
         </button>
         <button onClick={handleSignOutClick} className="signout-button">
           {language === "ro" ? "Deconectare" : "Sign Out"}

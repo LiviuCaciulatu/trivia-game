@@ -1,24 +1,70 @@
-
 const Translations = {
-    en: {
-      welcome: "Welcome! Please Sign In or Sign Up",
-      signIn: "Sign In",
-      signUp: "Sign Up",
-      selectLanguage: "Select Language",
-      english: "English",
-      romanian: "Romanian",
-      difficulty: "Select Difficulty",
-    },
-    ro: {
-      welcome: "Bine ai venit! Te rog să te autentifici sau să te înregistrezi",
-      signIn: "Autentificare",
-      signUp: "Înregistrare",
-      selectLanguage: "Selectează Limba",
-      english: "Engleză",
-      romanian: "Română",
-      difficulty: "Selectează Dificultatea",
-    }
-  };
-  
-  export default Translations;
+  en: {
+    welcome: "Welcome!",
+    signIn: "Sign In",
+    signUp: "Sign Up",
+    selectLanguage: "Select Language",
+    english: "English",
+    romanian: "Romanian",
+    difficulty: "Select Difficulty",
+    usernamePlaceholder: "Username",
+    passwordPlaceholder: "Password",
+    error: "Error during sign-in.",
+    easy: "Easy",
+    intermediate: "Intermediate",
+    hard: "Hard",
+    triviaGame: "Trivia Game",
+    player: "Player",
+    points: "Points",
+    timeLeft: "Time left",
+    seconds: "seconds",
+    trueOrFalse: "True or False!",
+    guessCapital: "Guess the Capital!",
+    isCapital: "Is {capital} the capital of {country}?",
+    whatCapital: "What is the capital of {country}?",
+    true: "True",
+    false: "False",
+    good: "Good!",
+    incorrectTrueFalse: "Incorrect. The correct answer is {answer}. {capital} is the capital of {country}.",
+    incorrectMCQ: "Incorrect. The capital of {country} is {capital}.",
+    exitGame: "Exit Game",
+    signOut: "Sign Out",
+    congrats: "Great job! You've answered all the questions!"
+  },
+  ro: {
+    welcome: "Bine ai venit!",
+    signIn: "Autentificare",
+    signUp: "Înregistrare",
+    selectLanguage: "Selectează Limba",
+    english: "Engleză",
+    romanian: "Română",
+    difficulty: "Selectează Dificultatea",
+    usernamePlaceholder: "Nume de utilizator",
+    passwordPlaceholder: "Parolă",
+    error: "Eroare în timpul autentificării.",
+    easy: "Începător",
+    intermediate: "Mediu",
+    hard: "Greu",
+    triviaGame: "Joc Trivia",
+    player: "Jucător",
+    points: "Puncte",
+    timeLeft: "Timp rămas",
+    seconds: "secunde",
+    trueOrFalse: "Adevărat sau Fals!",
+    guessCapital: "Ghiciți capitala!",
+    isCapital: "Este {capital} capitala {country}?",
+    whatCapital: "Care este capitala {country}?",
+    true: "Adevărat",
+    false: "Fals",
+    good: "Corect!",
+    incorrectTrueFalse: "Greșit. Răspunsul corect este {answer}. Capitala {country} este {capital}.",
+    incorrectMCQ: "Greșit. Capitala {country} este {capital}.",
+    exitGame: "Ieși din joc",
+    signOut: "Deconectare",
+    congrats: "Felicitări! Ai răspuns la toate întrebările!"
+  },
+};
+
+export default Translations;
+
   
