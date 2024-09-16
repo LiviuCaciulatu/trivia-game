@@ -29,7 +29,12 @@ const Translations = {
     incorrectMCQ: "Incorrect. The capital of {country} is {capital}.",
     exitGame: "Exit Game",
     signOut: "Sign Out",
-    congrats: "Great job! You've answered all the questions!"
+    congrats: "Great job! You've answered all the questions!",
+    selectCountry: "Select Country",
+    selectAge: "Select Age",
+    signUpSuccesful: "Sign-up successful!",
+    invalidUserOrPass: "Invalid username or password.",
+    signUpError: "Error during sign-up. Please try again.",
   },
   ro: {
     welcome: "Bine ai venit!",
@@ -61,7 +66,12 @@ const Translations = {
     incorrectMCQ: "Greșit. Capitala {country} este {capital}.",
     exitGame: "Ieși din joc",
     signOut: "Deconectare",
-    congrats: "Felicitări! Ai răspuns la toate întrebările!"
+    congrats: "Felicitări! Ai răspuns la toate întrebările!",
+    selectCountry: "Selecteaza tara",
+    selectAge: "Selecteaza Varsta",
+    signUpSuccesful: "Te-ai inregistrat cu succes!",
+    invalidUserOrPass: "Nume de utilizator sau parola invalide",
+    signUpError: "Eroare in timpul inregistrarii",
   },
 };
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./SignUp.css";
+import Translations from "../Translations";
 
 const europeanCountries = [
   "Albania", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Bosnia and Herzegovina",
@@ -10,7 +11,7 @@ const europeanCountries = [
   "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Ukraine", "United Kingdom", "Vatican"
 ];
 
-const SignUp = ({ onSignUpSuccess }) => {
+const SignUp = ({ onSignUpSuccess, language }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [age, setAge] = useState("");
@@ -52,22 +53,22 @@ const SignUp = ({ onSignUpSuccess }) => {
 
   return (
     <div className="signup-form">
-      <h2>Sign Up!</h2>
+      <h2>{Translations[language].signUp}</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Username"
+          placeholder={Translations[language].usernamePlaceholder}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder={Translations[language].passwordPlaceholder}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <select value={age} onChange={(e) => setAge(e.target.value)} required>
-          <option value="">Select Age</option>
+          <option value="">{Translations[language].selectAge}</option>
           {Array.from({ length: 11 }, (_, i) => i + 6).map((age) => (
             <option key={age} value={age}>
               {age}
@@ -75,14 +76,14 @@ const SignUp = ({ onSignUpSuccess }) => {
           ))}
         </select>
         <select value={country} onChange={(e) => setCountry(e.target.value)} required>
-          <option value="">Select Country</option>
+          <option value="">{Translations[language].selectCountry}</option>
           {europeanCountries.map((country) => (
             <option key={country} value={country}>
               {country}
             </option>
           ))}
         </select>
-        <button type="submit">Sign Up</button>
+        <button type="submit">{Translations[language].signUp}</button>
       </form>
       {message && <p>{message}</p>}
     </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Game.css";
+import Translations from "../Translations";
 
 const fetchCountriesRoFull = async () => {
   try {
