@@ -17,12 +17,12 @@ function App() {
   const [difficulty, setDifficulty] = useState(null);
   const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
 
-  useEffect(() => {
-    const storedLanguage = localStorage.getItem("language");
-    if (storedLanguage) {
-      setLanguage(storedLanguage);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedLanguage = localStorage.getItem("language");
+  //   if (storedLanguage) {
+  //     setLanguage(storedLanguage);
+  //   }
+  // }, []);
 
   const handleSignIn = (username, initialPoints) => {
     setIsSignedIn(true);

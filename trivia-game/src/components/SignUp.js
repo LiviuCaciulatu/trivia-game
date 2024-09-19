@@ -69,7 +69,7 @@ const SignUp = ({ onSignUpSuccess, language }) => {
         />
         <select value={age} onChange={(e) => setAge(e.target.value)} required>
           <option value="">{Translations[language].selectAge}</option>
-          {Array.from({ length: 11 }, (_, i) => i + 6).map((age) => (
+          { [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((age) => (
             <option key={age} value={age}>
               {age}
             </option>

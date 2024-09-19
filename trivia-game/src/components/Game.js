@@ -8,10 +8,7 @@ const fetchCountriesRoFull = async () => {
     const response = await fetch("/CountriesEN.txt");
     const text = await response.text();
 
-    const countries = text
-      .split("\r\n\r\n")
-      .map((word) => word.trim())
-      .filter((word) => word.length > 0);
+    const countries = text.split("\r\n\r\n").map((word) => word.trim()).filter((word) => word.length > 0);
     const formattedCountries = countries.map((pair) => {
       const [country, capital] = pair.split(",").map((item) => item.trim());
       return { country, capital };
@@ -45,13 +42,14 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [options, setOptions] = useState([]);
   const [message, setMessage] = useState("");
-  const [timer, setTimer] = useState(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const timerRef = useRef(null);
   const [usedCountries, setUsedCountries] = useState([]);
   const [isTrueFalse, setIsTrueFalse] = useState(false);
 
   const navigate = useNavigate();
+
+  const ages = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
   const loadCountries = async () => {
     const fetchedCountries = await fetchCountriesRoFull();
