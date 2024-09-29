@@ -8,7 +8,7 @@ import SignIn from "./components/SignIn";
 import DifficultySelection from "./components/DifficultySelection";
 import LanguageSelection from "./components/LanguageSelection";
 import AuthSelection from "./components/AuthSelection";
-import translations from "./Translations";
+import Translations from "./Translations";
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -16,13 +16,6 @@ function App() {
   const [points, setPoints] = useState(0);
   const [difficulty, setDifficulty] = useState(null);
   const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
-
-  // useEffect(() => {
-  //   const storedLanguage = localStorage.getItem("language");
-  //   if (storedLanguage) {
-  //     setLanguage(storedLanguage);
-  //   }
-  // }, []);
 
   const handleSignIn = (username, initialPoints) => {
     setIsSignedIn(true);

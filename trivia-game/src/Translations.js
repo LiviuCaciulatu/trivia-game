@@ -30,6 +30,10 @@ const Translations = {
     exitGame: "Exit Game",
     signOut: "Sign Out",
     congrats: "Great job! You've answered all the questions!",
+    timeUp: "Time is up!",
+    timeExpired: "Time expired. The correct answer is {answer}.",
+    timeUpTF: "Time expired. The correct answer is {answer} for {country}.",
+    timeUpMCQ: "Time expired. The capital of {country} is {capital}.",
     selectCountry: "Select Country",
     selectAge: "Select Age",
     signUpSuccesful: "Sign-up successful!",
@@ -67,14 +71,16 @@ const Translations = {
     exitGame: "Ieși din joc",
     signOut: "Deconectare",
     congrats: "Felicitări! Ai răspuns la toate întrebările!",
+    timeUp: "Timpul a expirat!",
+    timeExpired: "Timpul a expirat. Răspunsul corect este {answer}.",
+    timeUpTF: "Timpul a expirat. Răspunsul corect este {answer} pentru {country}.",
+    timeUpMCQ: "Timpul a expirat. Capitala {country} este {capital}.",
     selectCountry: "Selecteaza tara",
     selectAge: "Selecteaza Varsta",
-    signUpSuccesful: "Te-ai inregistrat cu succes!",
+    signUpSuccesful: "Te-ai înregistrat cu succes!",
     invalidUserOrPass: "Nume de utilizator sau parola invalide",
-    signUpError: "Eroare in timpul inregistrarii",
+    signUpError: "Eroare în timpul înregistrării",
   },
 };
 
 export default Translations;
-
-  

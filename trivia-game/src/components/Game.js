@@ -3,40 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Game.css";
 import Translations from "../Translations";
 
-const fetchCountriesRoFull = async () => {
-  try {
-    const response = await fetch("/CountriesEN.txt");
-    const text = await response.text();
-
-    const countries = text.split("\r\n\r\n").map((word) => word.trim()).filter((word) => word.length > 0);
-    const formattedCountries = countries.map((pair) => {
-      const [country, capital] = pair.split(",").map((item) => item.trim());
-      return { country, capital };
-    });
-    return formattedCountries;
-  } catch (error) {
-    console.error("Error fetching countries:", error);
-    return [];
-  }
-};
-
-const getRandomCountry = (countries, usedCountries) => {
-  const unusedCountries = countries.filter(
-    (country) => !usedCountries.includes(country)
-  );
-  const randomIndex = Math.floor(Math.random() * unusedCountries.length);
-  return unusedCountries[randomIndex];
-};
-
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
-const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
+const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSignedIn }) => {
   const [points, setPoints] = useState(initialPoints);
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -46,41 +13,95 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
   const timerRef = useRef(null);
   const [usedCountries, setUsedCountries] = useState([]);
   const [isTrueFalse, setIsTrueFalse] = useState(false);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const navigate = useNavigate();
+  const t = Translations[language] || Translations.en;
 
-  const ages = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  // Function to fetch countries from the database
+  const fetchCountriesFromDB = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/countries");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const countries = await response.json();
+      return countries.map(({ country, capital }) => ({
+        country,
+        capital,
+      }));
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+      return [];
+    }
+  };
 
+  // Function to get a random country that hasn't been used yet
+  const getRandomCountry = (countries, usedCountries) => {
+    const unusedCountries = countries.filter(
+      (country) => !usedCountries.includes(country.country)
+    );
+    if (unusedCountries.length === 0) return null; // Handle case when all countries are used
+    const randomIndex = Math.floor(Math.random() * unusedCountries.length);
+    return unusedCountries[randomIndex];
+  };
+
+  // Function to shuffle an array
+  const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+
+  // Load countries and start the game
   const loadCountries = async () => {
-    const fetchedCountries = await fetchCountriesRoFull();
+    const fetchedCountries = await fetchCountriesFromDB();
     setCountries(fetchedCountries);
     loadNewQuestion(fetchedCountries, []);
   };
 
+  // Load a new question
   const loadNewQuestion = (allCountries, usedCountries) => {
     if (usedCountries.length === allCountries.length) {
-      setMessage(language === "ro" ? "Felicitări! Ai răspuns la toate întrebările!" : "Great job! You've answered all the questions!");
+      setMessage(t.congrats);
       stopTimer();
       return;
     }
-
     const questionType = Math.random() > 0.5;
+    const correctCountry = getRandomCountry(allCountries, usedCountries);
 
-    if (questionType) {
-      generateTrueFalseQuestion(allCountries, usedCountries);
-    } else {
-      generateMultipleChoiceQuestion(allCountries, usedCountries);
+    if (correctCountry) {
+      if (questionType) {
+        generateTrueFalseQuestion(allCountries, usedCountries, correctCountry);
+      } else {
+        generateMultipleChoiceQuestion(allCountries, usedCountries, correctCountry);
+      }
     }
   };
 
+  // Effect to load countries on first render and reset timer on unmount
   useEffect(() => {
-    loadCountries();
-  }, []);
+    if (isFirstLoad) {
+      loadCountries();
+      setIsFirstLoad(false);
+    }
+    return () => {
+      stopTimer();
+    };
+  }, [isFirstLoad]);
 
-  const generateTrueFalseQuestion = (allCountries, usedCountries) => {
-    const correctCountry = getRandomCountry(allCountries, usedCountries);
+  // Effect to reset used countries when the user signs in
+  useEffect(() => {
+    if (isSignedIn) {
+      setUsedCountries([]); // Reset used countries
+    }
+  }, [isSignedIn]);
+
+  // Generate a true/false question
+  const generateTrueFalseQuestion = (allCountries, usedCountries, correctCountry) => {
     const isCorrect = Math.random() > 0.5;
-
     const displayedCapital = isCorrect
       ? correctCountry.capital
       : getRandomCountry(allCountries, usedCountries).capital;
@@ -89,20 +110,22 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
       country: correctCountry.country,
       capital: displayedCapital,
     });
-    setOptions([language === "ro" ? "Adevărat" : "True", language === "ro" ? "Fals" : "False"]);
+
+    setOptions([t.true, t.false]);
     setIsTrueFalse(true);
     setMessage("");
+
     stopTimer();
-    startTimer();
+    startTimer(); // Start the timer here after the question is set
   };
 
-  const generateMultipleChoiceQuestion = (allCountries, usedCountries) => {
-    const correctCountry = getRandomCountry(allCountries, usedCountries);
+  // Generate a multiple-choice question
+  const generateMultipleChoiceQuestion = (allCountries, usedCountries, correctCountry) => {
     const incorrectOptions = new Set();
 
     while (incorrectOptions.size < 3) {
       const randomCountry = getRandomCountry(allCountries, usedCountries);
-      if (randomCountry.capital !== correctCountry.capital) {
+      if (randomCountry && randomCountry.capital !== correctCountry.capital) {
         incorrectOptions.add(randomCountry.capital);
       }
     }
@@ -111,14 +134,17 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
       ...incorrectOptions,
       correctCountry.capital,
     ]);
+
     setSelectedCountry(correctCountry);
     setOptions(allOptions);
     setIsTrueFalse(false);
     setMessage("");
+
     stopTimer();
-    startTimer();
+    startTimer(); // Start the timer here after the question is set
   };
 
+  // Handle correct answers
   const handleCorrectAnswer = async () => {
     const newPoints = points + 1;
     setPoints(newPoints);
@@ -134,47 +160,71 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
     }
   };
 
+  // Handle time expiration
+  const handleTimeExpired = () => {
+    if (!selectedCountry) return;
+
+    const actualCapital = countries.find(
+      (c) => c.country === selectedCountry.country
+    ).capital;
+
+    setMessage(
+      t.incorrectMCQ
+        .replace("{capital}", selectedCountry.capital)
+        .replace("{country}", selectedCountry.country)
+    );
+
+    setTimeout(() => {
+      setUsedCountries((prevUsed) => {
+        const newUsedCountries = [...prevUsed, selectedCountry.country]; // Add country name to used list
+        loadNewQuestion(countries, newUsedCountries);
+        return newUsedCountries;
+      });
+    }, 2000);
+  };
+
+  // Handle option click
   const handleOptionClick = (option) => {
     stopTimer();
+
+    if (!selectedCountry || !option) return;
 
     if (isTrueFalse) {
       const actualCapital = countries.find(
         (c) => c.country === selectedCountry.country
       ).capital;
+
       const isCorrect =
-        (option === (language === "ro" ? "Adevărat" : "True") && selectedCountry.capital === actualCapital) ||
-        (option === (language === "ro" ? "Fals" : "False") && selectedCountry.capital !== actualCapital);
+        (option === t.true && selectedCountry.capital === actualCapital) ||
+        (option === t.false && selectedCountry.capital !== actualCapital);
 
       if (isCorrect) {
-        setMessage(language === "ro" ? "Corect!" : "Good!");
+        setMessage(t.good);
         handleCorrectAnswer();
       } else {
         setMessage(
-          language === "ro"
-            ? `Greșit. Răspunsul corect este ${
-                selectedCountry.capital === actualCapital ? "Adevărat" : "Fals"
-              }. Capitala ${selectedCountry.country} este ${actualCapital}.`
-            : `Incorrect. The correct answer is ${
-                selectedCountry.capital === actualCapital ? "True" : "False"
-              }. ${actualCapital} is the capital of ${selectedCountry.country}.`
+          t.incorrectTrueFalse
+            .replace("{answer}", selectedCountry.capital === actualCapital ? t.true : t.false)
+            .replace("{capital}", actualCapital)
+            .replace("{country}", selectedCountry.country)
         );
       }
     } else {
       if (option === selectedCountry.capital) {
-        setMessage(language === "ro" ? "Corect!" : "Good!");
+        setMessage(t.good);
         handleCorrectAnswer();
       } else {
         setMessage(
-          language === "ro"
-            ? `Greșit. Capitala ${selectedCountry.country} este ${selectedCountry.capital}.`
-            : `Incorrect. The capital of ${selectedCountry.country} is ${selectedCountry.capital}.`
+          t.incorrectMCQ
+            .replace("{capital}", selectedCountry.capital)
+            .replace("{country}", selectedCountry.country)
         );
       }
     }
 
     setTimeout(() => {
       setUsedCountries((prevUsed) => {
-        const newUsedCountries = [...prevUsed, selectedCountry];
+        const newUsedCountries = [...prevUsed, selectedCountry.country];
         loadNewQuestion(countries, newUsedCountries);
         return newUsedCountries;
       });
@@ -195,7 +245,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
         setTimeLeft((prevTime) => {
           if (prevTime === 1) {
             clearInterval(timerRef.current);
-            handleOptionClick(null);
+            handleTimeExpired();
             return 0;
           }
           return prevTime - 1;
@@ -210,63 +260,54 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut }) => {
 
   const handleExitGame = () => {
     stopTimer();
+    setUsedCountries([]);
     navigate("/select-difficulty");
   };
 
   const handleSignOutClick = () => {
     stopTimer();
+    setUsedCountries([]);
     onSignOut();
-    navigate("/select-language")
+    navigate("/select-language");
   };
 
   return (
     <div className="game-container">
-      <h1>{language === "ro" ? "Joc Trivia" : "Trivia Game"}</h1>
-      <h3>{language === "ro" ? `Jucător: ${username}` : `Player: ${username}`}</h3>
-      <h3>{language === "ro" ? `Puncte: ${points}` : `Points: ${points}`}</h3>
+      <h1>{t.triviaGame}</h1>
+      <h4>{`${t.points}: ${points}`}</h4>
+      <h4>{`${t.timeLeft}: ${timeLeft} ${t.seconds}`}</h4>
 
-      {difficulty !== "novice" && (
-        <h4>{language === "ro" ? `Timp rămas: ${timeLeft} secunde` : `Time left: ${timeLeft} seconds`}</h4>
-      )}
-
-      {selectedCountry && usedCountries.length < countries.length ? (
+      {selectedCountry && (
         <div>
-          <h2>{isTrueFalse ? (language === "ro" ? "Adevărat sau Fals!" : "True or False!") : (language === "ro" ? "Ghiciți capitala!" : "Guess the Capital!")}</h2>
-          <p>
+          <h3>
             {isTrueFalse
-              ? language === "ro"
-                ? `Este ${selectedCountry.capital} capitala ${selectedCountry.country}?`
-                : `Is ${selectedCountry.capital} the capital of ${selectedCountry.country}?`
-              : language === "ro"
-              ? `Care este capitala ${selectedCountry.country}?`
-              : `What is the capital of ${selectedCountry.country}?`}
-          </p>
-          <div className="options-container">
+              ? t.isCapital
+                  .replace("{capital}", selectedCountry.capital)
+                  .replace("{country}", selectedCountry.country)
+              : t.whatCapital.replace("{country}", selectedCountry.country)}
+          </h3>
+          <div className="options">
             {options.map((option, index) => (
               <button
                 key={index}
-                onClick={() => handleOptionClick(option)}
                 className="option-button"
-                disabled={message !== ""}
+                onClick={() => handleOptionClick(option)}
               >
                 {option}
               </button>
             ))}
           </div>
-          {message && <p className="message">{message}</p>}
         </div>
-      ) : (
-        <p className="message">{message}</p>
       )}
 
-      <div className="navigation-buttons">
-        <button onClick={handleExitGame} className="exit-button">
-          {language === "ro" ? "Ieși din joc" : "Exit Game"}
-        </button>
-        <button onClick={handleSignOutClick} className="signout-button">
-          {language === "ro" ? "Deconectare" : "Sign Out"}
-        </button>
-      </div>
+      <h3>{message}</h3>
+
+      <button className="exit-button" onClick={handleExitGame}>
+        {t.exitGame}
+      </button>
+      <button className="signout-button" onClick={handleSignOutClick}>
+        {t.signOut}
+      </button>
     </div>
   );
 };
