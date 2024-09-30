@@ -8,7 +8,6 @@ import SignIn from "./components/SignIn";
 import DifficultySelection from "./components/DifficultySelection";
 import LanguageSelection from "./components/LanguageSelection";
 import AuthSelection from "./components/AuthSelection";
-import Translations from "./Translations";
 
 function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);

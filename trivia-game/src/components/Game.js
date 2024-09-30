@@ -16,7 +16,10 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   const [isFirstLoad, setIsFirstLoad] = useState(true);
 
   const navigate = useNavigate();
-  const t = Translations[language] || Translations.en;
+  const t = Translations[language] || Translations.en; // Fallback to English if language is not defined
+
+  const countryName = selectedCountry?.country || "Unknown";
+  const capitalName = selectedCountry?.capital || "Unknown"; // Fixed typo from 'caoutal' to 'capital'
 
   // Function to fetch countries from the database
   const fetchCountriesFromDB = async () => {
@@ -36,12 +39,12 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     }
   };
 
-  // Function to get a random country that hasn't been used yet
+  // Get a random country for the question
   const getRandomCountry = (countries, usedCountries) => {
     const unusedCountries = countries.filter(
       (country) => !usedCountries.includes(country.country)
     );
-    if (unusedCountries.length === 0) return null; // Handle case when all countries are used
+    if (unusedCountries.length === 0) return null;
     const randomIndex = Math.floor(Math.random() * unusedCountries.length);
     return unusedCountries[randomIndex];
   };
@@ -57,27 +60,54 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
 
   // Load countries and start the game
   const loadCountries = async () => {
+    const fetchedPoints = await fetchUserPoints();
+    setPoints(fetchedPoints);
+  
     const fetchedCountries = await fetchCountriesFromDB();
     setCountries(fetchedCountries);
-    loadNewQuestion(fetchedCountries, []);
+
+    const initialCountry = getRandomCountry(fetchedCountries, []);
+    if (initialCountry) {
+      setUsedCountries([initialCountry.country]);
+      loadNewQuestion(fetchedCountries, [initialCountry.country]);
+    }
+  };
+
+  // Update user points
+  const fetchUserPoints = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/get-points/${username}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch user points");
+      }
+      const data = await response.json();
+      return data.points;
+    } catch (error) {
+      console.error("Error fetching user points:", error);
+      return initialPoints;
+    }
   };
 
   // Load a new question
   const loadNewQuestion = (allCountries, usedCountries) => {
+    // Check if we have run out of countries to use
     if (usedCountries.length === allCountries.length) {
       setMessage(t.congrats);
       stopTimer();
       return;
     }
+    
     const questionType = Math.random() > 0.5;
     const correctCountry = getRandomCountry(allCountries, usedCountries);
-
+  
     if (correctCountry) {
       if (questionType) {
         generateTrueFalseQuestion(allCountries, usedCountries, correctCountry);
       } else {
         generateMultipleChoiceQuestion(allCountries, usedCountries, correctCountry);
       }
+    } else {
+      setMessage(t.noMoreQuestions);
     }
   };
 
@@ -95,7 +125,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   // Effect to reset used countries when the user signs in
   useEffect(() => {
     if (isSignedIn) {
-      setUsedCountries([]); // Reset used countries
+      setUsedCountries([]);
     }
   }, [isSignedIn]);
 
@@ -116,7 +146,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     setMessage("");
 
     stopTimer();
-    startTimer(); // Start the timer here after the question is set
+    startTimer();
   };
 
   // Generate a multiple-choice question
@@ -141,7 +171,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     setMessage("");
 
     stopTimer();
-    startTimer(); // Start the timer here after the question is set
+    startTimer();
   };
 
   // Handle correct answers
@@ -160,6 +190,28 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     }
   };
 
+  // Handle wrong answers
+  const handleWrongAnswer = (actualCapital, selectedCountry) => {
+    setMessage(
+      isTrueFalse
+        ? t.incorrectTrueFalse
+            .replace("{answer}", selectedCountry.capital === actualCapital ? t.true : t.false)
+            .replace("{capital}", actualCapital)
+            .replace("{country}", selectedCountry.country)
+        : t.incorrectMCQ
+            .replace("{capital}", selectedCountry.capital)
+            .replace("{country}", selectedCountry.country)
+    );
+  
+    // Use a functional update to access the latest state of usedCountries
+    setUsedCountries((prevUsed) => {
+      const newUsedCountries = [...prevUsed, selectedCountry.country];
+      // Load a new question immediately after updating the used countries
+      loadNewQuestion(countries, newUsedCountries);
+      return newUsedCountries;
+    });
+  };
+
   // Handle time expiration
   const handleTimeExpired = () => {
     if (!selectedCountry) return;
@@ -168,19 +220,8 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
       (c) => c.country === selectedCountry.country
     ).capital;
 
-    setMessage(
-      t.incorrectMCQ
-        .replace("{capital}", selectedCountry.capital)
-        .replace("{country}", selectedCountry.country)
-    );
-
-    setTimeout(() => {
-      setUsedCountries((prevUsed) => {
-        const newUsedCountries = [...prevUsed, selectedCountry.country]; // Add country name to used list
-        loadNewQuestion(countries, newUsedCountries);
-        return newUsedCountries;
-      });
-    }, 2000);
+    // Call handleWrongAnswer for time expiry case
+    handleWrongAnswer(actualCapital, selectedCountry);
   };
 
   // Handle option click
@@ -189,11 +230,11 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
 
     if (!selectedCountry || !option) return;
 
-    if (isTrueFalse) {
-      const actualCapital = countries.find(
-        (c) => c.country === selectedCountry.country
-      ).capital;
+    const actualCapital = countries.find(
+      (c) => c.country === selectedCountry.country
+    ).capital;
 
+    if (isTrueFalse) {
       const isCorrect =
         (option === t.true && selectedCountry.capital === actualCapital) ||
         (option === t.false && selectedCountry.capital !== actualCapital);
@@ -202,33 +243,16 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
         setMessage(t.good);
         handleCorrectAnswer();
       } else {
-        setMessage(
-          t.incorrectTrueFalse
-            .replace("{answer}", selectedCountry.capital === actualCapital ? t.true : t.false)
-            .replace("{capital}", actualCapital)
-            .replace("{country}", selectedCountry.country)
-        );
+        handleWrongAnswer(actualCapital, selectedCountry); // Handle wrong answer
       }
     } else {
       if (option === selectedCountry.capital) {
         setMessage(t.good);
         handleCorrectAnswer();
       } else {
-        setMessage(
-          t.incorrectMCQ
-            .replace("{capital}", selectedCountry.capital)
-            .replace("{country}", selectedCountry.country)
-        );
+        handleWrongAnswer(actualCapital, selectedCountry); // Handle wrong answer
       }
     }
-
-    setTimeout(() => {
-      setUsedCountries((prevUsed) => {
-        const newUsedCountries = [...prevUsed, selectedCountry.country];
-        loadNewQuestion(countries, newUsedCountries);
-        return newUsedCountries;
-      });
-    }, 2000);
   };
 
   const startTimer = () => {
@@ -258,10 +282,20 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     clearInterval(timerRef.current);
   };
 
-  const handleExitGame = () => {
+  const handleExitGame = async () => {
     stopTimer();
-    setUsedCountries([]);
-    navigate("/select-difficulty");
+  
+    try {
+      await fetch("http://localhost:5000/update-points", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, points }),
+      });
+      onSignOut(); // Sign out the user
+      navigate("/"); // Navigate to home
+    } catch (error) {
+      console.error("Error updating points during exit:", error);
+    }
   };
 
   const handleSignOutClick = () => {
@@ -274,40 +308,27 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   return (
     <div className="game-container">
       <h1>{t.triviaGame}</h1>
-      <h4>{`${t.points}: ${points}`}</h4>
-      <h4>{`${t.timeLeft}: ${timeLeft} ${t.seconds}`}</h4>
-
+      <div className="game-info">
+        <h2>{username}</h2>
+        <h3>{points}</h3>
+        <h3>{t.timeLeft}: {timeLeft} {t.seconds}</h3>
+      </div>
+      {message && <div className="message">{message}</div>}
       {selectedCountry && (
-        <div>
-          <h3>
-            {isTrueFalse
-              ? t.isCapital
-                  .replace("{capital}", selectedCountry.capital)
-                  .replace("{country}", selectedCountry.country)
-              : t.whatCapital.replace("{country}", selectedCountry.country)}
-          </h3>
+        <div className="question">
+          <h2>{isTrueFalse ? t.trueOrFalse : t.guessCapital}</h2>
+          <h3>{isTrueFalse ? t.isCapital.replace("{capital}", capitalName).replace("{country}", countryName) : t.whatCapital.replace("{country}", countryName)}</h3>
           <div className="options">
             {options.map((option, index) => (
-              <button
-                key={index}
-                className="option-button"
-                onClick={() => handleOptionClick(option)}
-              >
+              <button key={index} onClick={() => handleOptionClick(option)}>
                 {option}
               </button>
             ))}
           </div>
         </div>
       )}
-
-      <h3>{message}</h3>
-
-      <button className="exit-button" onClick={handleExitGame}>
-        {t.exitGame}
-      </button>
-      <button className="signout-button" onClick={handleSignOutClick}>
-        {t.signOut}
-      </button>
+      <button onClick={handleExitGame}>{t.exitGame}</button>
+      <button onClick={handleSignOutClick}>{t.signOut}</button>
     </div>
   );
 };

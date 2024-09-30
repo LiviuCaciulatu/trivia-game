@@ -9,7 +9,7 @@ const app = express();
 const countriesPool = new Pool({
     user: 'Liviu',
     host: 'localhost',
-    database: 'countries',
+    database: 'trivia_countries',
     password: 'Converse10',
     port: 5432,
 });
@@ -18,7 +18,7 @@ const countriesPool = new Pool({
 const usersPool = new Pool({
     user: 'Liviu',
     host: 'localhost',
-    database: 'trivia_users', // Assuming this is the user database
+    database: 'trivia_users',
     password: 'Converse10',
     port: 5432,
 });
@@ -77,7 +77,7 @@ app.post('/update-points', async (req, res) => {
 
     try {
         await usersPool.query(
-            'UPDATE users SET points = points + $1 WHERE username = $2',
+            'UPDATE users SET points = $1 WHERE username = $2',
             [points, username]
         );
         res.status(200).json({ message: 'Points updated successfully' });
@@ -85,6 +85,7 @@ app.post('/update-points', async (req, res) => {
         res.status(500).json({ message: 'Error updating points' });
     }
 });
+
 
 // Endpoint to fetch countries
 app.get('/countries', async (req, res) => {
@@ -96,6 +97,26 @@ app.get('/countries', async (req, res) => {
         res.status(500).json({ message: 'Error fetching countries' });
     }
 });
+
+app.get('/get-points/:username', async (req, res) => {
+    const { username } = req.params;
+
+    try {
+        const result = await usersPool.query(
+            'SELECT points FROM users WHERE username = $1',
+            [username]
+        );
+
+        if (result.rows.length > 0) {
+            res.status(200).json({ points: result.rows[0].points });
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching user points' });
+    }
+});
+
 
 app.listen(5000, () => {
     console.log('Server running on port 5000');
