@@ -178,13 +178,22 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   const handleCorrectAnswer = async () => {
     const newPoints = points + 1;
     setPoints(newPoints);
-
+  
     try {
       await fetch("http://localhost:5000/update-points", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, points: newPoints }),
       });
+  
+      // Delay the loading of the next question by 2 seconds to show the message
+      setTimeout(() => {
+        setUsedCountries((prevUsed) => {
+          const newUsedCountries = [...prevUsed, selectedCountry.country];
+          loadNewQuestion(countries, newUsedCountries);
+          return newUsedCountries;
+        });
+      }, 3000); // 2 second delay
     } catch (error) {
       console.error("Error updating points:", error);
     }
@@ -203,13 +212,14 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
             .replace("{country}", selectedCountry.country)
     );
   
-    // Use a functional update to access the latest state of usedCountries
-    setUsedCountries((prevUsed) => {
-      const newUsedCountries = [...prevUsed, selectedCountry.country];
-      // Load a new question immediately after updating the used countries
-      loadNewQuestion(countries, newUsedCountries);
-      return newUsedCountries;
-    });
+    // Delay the loading of the next question by 2 seconds to show the message
+    setTimeout(() => {
+      setUsedCountries((prevUsed) => {
+        const newUsedCountries = [...prevUsed, selectedCountry.country];
+        loadNewQuestion(countries, newUsedCountries);
+        return newUsedCountries;
+      });
+    }, 3000); // 2 second delay
   };
 
   // Handle time expiration
@@ -284,15 +294,16 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
 
   const handleExitGame = async () => {
     stopTimer();
-  
+    
     try {
       await fetch("http://localhost:5000/update-points", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, points }),
       });
-      onSignOut(); // Sign out the user
-      navigate("/"); // Navigate to home
+  
+      // Navigate back to the difficulty page without signing out
+      navigate("/select-difficulty");
     } catch (error) {
       console.error("Error updating points during exit:", error);
     }
