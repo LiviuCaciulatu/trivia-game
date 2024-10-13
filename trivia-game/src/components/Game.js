@@ -10,15 +10,13 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [options, setOptions] = useState([]);
   const [message, setMessage] = useState("");
-  const [isTrueFalse, setIsTrueFalse] = useState(false);
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isQuestionProcessed, setIsQuestionProcessed] = useState(false);
-  const [usedCountries, setUsedCountries] = useState([]); // Initialize usedCountries state
+  const [usedCountries, setUsedCountries] = useState([]);
 
   const navigate = useNavigate();
   const t = Translations[language] || Translations.en; // Fallback to English if language is not defined
-
-  const { timeLeft, startTimer, stopTimer } = useTimer(); // Initialize the timer hook
+  const { timeLeft, startTimer, stopTimer } = useTimer();
 
   const countryName = selectedCountry?.country || "Unknown";
   const capitalName = selectedCountry?.capital || "Unknown";
@@ -63,44 +61,42 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
 
     setSelectedCountry(correctCountry);
 
-    const questionType = Math.random() > 0.5;
-    if (questionType) {
-      generateTrueFalseQuestion(allCountries, correctCountry);
-    } else {
-      generateMultipleChoiceQuestion(allCountries, correctCountry);
+    const questionType = Math.random() > 0.5 ? 'trueFalse' : 'multipleChoice';
+    generateQuestion(questionType, allCountries, correctCountry);
+  };
+
+  const generateQuestion = (type, allCountries, correctCountry) => {
+    stopTimer(); // Ensure previous timer stops
+    let timerDuration = 0; // Default timer duration
+
+    if (difficulty === "intermediate") {
+      timerDuration = 10; // 10 seconds for intermediate
+    } else if (difficulty === "hard") {
+      timerDuration = 5; // 5 seconds for hard
     }
-  };
 
-  const generateTrueFalseQuestion = (allCountries, correctCountry) => {
-    const isCorrect = Math.random() > 0.5;
-    let displayedCapital = isCorrect
-      ? correctCountry.capital
-      : getWrongCapital(allCountries, correctCountry);
+    // Start timer only if duration is set (not easy)
+    if (timerDuration > 0) {
+      startTimer(timerDuration);
+    }
 
-    const currentCountry = {
-      country: correctCountry.country,
-      capital: displayedCapital,
-    };
-    setSelectedCountry(currentCountry);
-    setOptions([t.true, t.false]);
-    setIsTrueFalse(true);
-    setMessage("");
-
-    stopTimer(); // Ensure previous timer stops
-    startTimer(difficulty === "intermediate" ? 10 : 5); // Set timer based on difficulty
-  };
-
-  const generateMultipleChoiceQuestion = (allCountries, correctCountry) => {
-    const wrongCapitals = getWrongCapitals(allCountries, correctCountry, 3);
-    const allOptions = shuffleArray([...wrongCapitals, correctCountry.capital]);
-
-    setSelectedCountry(correctCountry);
-    setOptions(allOptions);
-    setIsTrueFalse(false);
-    setMessage("");
-
-    stopTimer(); // Ensure previous timer stops
-    startTimer(difficulty === "intermediate" ? 10 : 5); // Set timer based on difficulty
+    if (type === 'trueFalse') {
+      const isCorrect = Math.random() > 0.5;
+      const displayedCapital = isCorrect
+        ? correctCountry.capital
+        : getWrongCapital(allCountries, correctCountry);
+      
+      setOptions([t.true, t.false]);
+      setMessage("");
+      setSelectedCountry({ country: correctCountry.country, capital: displayedCapital });
+    } else {
+      const wrongCapitals = getWrongCapitals(allCountries, correctCountry, 3);
+      const allOptions = shuffleArray([...wrongCapitals, correctCountry.capital]);
+      
+      setOptions(allOptions);
+      setMessage("");
+      setSelectedCountry(correctCountry);
+    }
   };
 
   // Handle time expiration
@@ -138,11 +134,13 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
         body: JSON.stringify({ username, points: newPoints }),
       });
 
-      setUsedCountries((prevUsed) => {
-        const newUsedCountries = [...prevUsed, selectedCountry.country];
-        loadNewQuestion(countries, newUsedCountries); // Load next question
-        return newUsedCountries;
-      });
+      setTimeout(() => {
+        setUsedCountries((prevUsed) => {
+          const newUsedCountries = [...prevUsed, selectedCountry.country];
+          loadNewQuestion(countries, newUsedCountries); // Load next question
+          return newUsedCountries;
+        });
+      }, 3000);
     } catch (error) {
       console.error("Error updating points:", error);
     }
@@ -151,14 +149,10 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   // Handle wrong answer logic
   const handleWrongAnswer = (actualCapital, selectedCountry) => {
     setMessage(
-      isTrueFalse
-        ? t.incorrectTrueFalse
-            .replace("{answer}", selectedCountry.capital === actualCapital ? t.true : t.false)
-            .replace("{capital}", actualCapital)
-            .replace("{country}", selectedCountry.country)
-        : t.incorrectMCQ
-            .replace("{capital}", selectedCountry.capital)
-            .replace("{country}", selectedCountry.country)
+      t.incorrectTrueFalse
+        .replace("{answer}", selectedCountry.capital === actualCapital ? t.true : t.false)
+        .replace("{capital}", actualCapital)
+        .replace("{country}", selectedCountry.country)
     );
 
     setTimeout(() => {
@@ -176,24 +170,15 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
       (c) => c.country === selectedCountry.country
     ).capital;
 
-    if (isTrueFalse) {
-      const isCorrect =
-        (option === t.true && selectedCountry.capital === actualCapital) ||
-        (option === t.false && selectedCountry.capital !== actualCapital);
+    const isCorrect = (option === selectedCountry.capital || 
+                      (option === t.true && selectedCountry.capital === actualCapital) || 
+                      (option === t.false && selectedCountry.capital !== actualCapital));
 
-      if (isCorrect) {
-        setMessage(t.good);
-        handleCorrectAnswer();
-      } else {
-        handleWrongAnswer(actualCapital, selectedCountry);
-      }
+    if (isCorrect) {
+      setMessage(t.good);
+      handleCorrectAnswer();
     } else {
-      if (option === selectedCountry.capital) {
-        setMessage(t.good);
-        handleCorrectAnswer();
-      } else {
-        handleWrongAnswer(actualCapital, selectedCountry);
-      }
+      handleWrongAnswer(actualCapital, selectedCountry);
     }
   };
 
@@ -238,23 +223,23 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
   // Render the component
   return (
     <div className="game-container">
-      <h1>{t.triviaGame}</h1>
       <div className="game-info">
-        <h2>{username}</h2>
-        <h3>{points}</h3>
-        <h3>
-          {t.timeLeft}: {timeLeft} {t.seconds}
-        </h3>
+        <h2 className="user">{username}</h2>
+        <h3 className="points">{points}</h3>
+        {/* Display timer only for easy difficulty */}
+        {difficulty === "easy" && (
+          <h3>
+            {t.timeLeft}: {timeLeft} {t.seconds}
+          </h3>
+        )}
       </div>
       {message && <div className="message">{message}</div>}
       {selectedCountry && (
         <div className="question">
-          <h2>{isTrueFalse ? t.trueOrFalse : t.guessCapital}</h2>
+          <h2>{options.length === 2 ? t.trueOrFalse : t.guessCapital}</h2>
           <h3>
-            {isTrueFalse
-              ? t.isCapital
-                  .replace("{capital}", capitalName)
-                  .replace("{country}", countryName)
+            {options.length === 2
+              ? t.isCapital.replace("{capital}", capitalName).replace("{country}", countryName)
               : t.whatCapital.replace("{country}", countryName)}
           </h3>
           <div className="options">
@@ -266,7 +251,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
           </div>
         </div>
       )}
-      <button onClick={() => navigate("/home")}>{t.exitGame}</button>
+      <button onClick={() => navigate("/select-language")}>{t.exitGame}</button>
       <button onClick={onSignOut}>{t.signOut}</button>
     </div>
   );

@@ -1,16 +1,106 @@
-.App {
-  text-align: center;
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+html, body {
+  height: 100%; /* Set height to 100% for full screen */
+  width: 100%;
+  font-family: "Bubblegum Sans", sans-serif;
+  background-color: #87CEEB; /* Sky blue background */
+  overflow: hidden; /* Prevent scrollbars */
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
+/* App Container */
+.App {
+  position: relative;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+}
+
+/* Background Styles */
+.background {
+  position: absolute;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background: linear-gradient(to top, #87CEEB, #FFFFFF); /* Sky gradient */
+  z-index: 0; /* Behind everything else */
+}
+
+/* Fun Elements */
+.cloud {
+  position: absolute;
+  width: 100px; /* Set width of clouds */
+  height: 60px; /* Set height of clouds */
+  opacity: 0.8; /* Slight transparency */
+  background-size: cover; /* Ensure the image covers the entire area */
+}
+
+/* Cloud Images */
+
+/* Animation Keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px); /* Move up */
+  }
+}
+
+@keyframes move {
+  0% {
+    left: -100px; /* Start off-screen to the left */
+  }
+  100% {
+    left: 100vw; /* Move off-screen to the right */
+  }
+}
+
+/* Header Styles */
+header {
+  position: relative;
+  z-index: 1; /* Above the map */
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Additional Styling for Components */
+h1, h2, h3, p {
+  margin: 10px;
+}
+
+/* Button Styles */
+button {
+  padding: 10px 15px;
+  background-color: #3E5A99; /* Matching color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2a3d66; /* Darker shade on hover */
+}
+
+/* Input Styles */
+input[type="text"], input[type="password"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 90%;
+  margin: 10px auto;
+  display: block;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  /* Add any responsive styles if needed */
+}

@@ -1,0 +1,23 @@
+.game-container{
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-repeat: no-repeat;
+  height: 70vh;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+}
+
+.game-info{
+    margin: 0;
+    padding: 0;
+}
+
+.user{
+    margin-bottom: 0;
+}

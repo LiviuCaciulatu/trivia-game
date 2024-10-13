@@ -1,5 +1,5 @@
 // useTimer.js
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from "react";
 
 const useTimer = () => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -37,4 +37,4 @@ const useTimer = () => {
   return { timeLeft, startTimer, stopTimer };
 };
 
-export default useTimer;
+export default useTimer; // Ensure export is at the bottom

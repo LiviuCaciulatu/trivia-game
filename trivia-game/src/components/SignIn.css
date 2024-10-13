@@ -1,0 +1,53 @@
+/* Container styling */
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vh;
+  }
+  
+  h2 {
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Input fields styling */
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Button styling */
+  button {
+    background-color: #4CAF50; /* Green background */
+    color: white;              /* White text */
+    padding: 12px 24px;         /* Padding for larger button */
+    border: none;               /* Remove border */
+    border-radius: 25px;        /* Rounded corners */
+    font-size: 16px;            /* Text size */
+    cursor: pointer;            /* Cursor pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    margin-top: 15px;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Button hover effect */
+  button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  /* Error message styling */
+  p {
+    color: red;
+    font-size: 14px;
+    margin-top: 15px;
+  }
