@@ -20,7 +20,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
 
   const countryName = selectedCountry?.country || "Unknown";
   const capitalName = selectedCountry?.capital || "Unknown";
-
+  
   // Fetch and load countries from the database
   const fetchCountriesFromDB = async () => {
     try {
@@ -42,6 +42,15 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     setCountries(fetchedCountries);
     loadNewQuestion(fetchedCountries, []); // Start the game with the first question
   };
+  
+  // Utility Functions
+  const getRandomCountry = (allCountries, usedCountries) => {
+    const unusedCountries = allCountries.filter(
+      (country) => !usedCountries.includes(country.country)
+    );
+    return unusedCountries[Math.floor(Math.random() * unusedCountries.length)];
+  };
+
 
   const loadNewQuestion = (allCountries, usedCountries) => {
     setIsQuestionProcessed(false); // Reset question processing state
@@ -52,7 +61,7 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
       stopTimer();
       return;
     }
-
+    
     const correctCountry = getRandomCountry(allCountries, usedCountries);
     if (!correctCountry) {
       setMessage(t.noMoreQuestions);
@@ -60,11 +69,11 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     }
 
     setSelectedCountry(correctCountry);
-
+    
     const questionType = Math.random() > 0.5 ? 'trueFalse' : 'multipleChoice';
     generateQuestion(questionType, allCountries, correctCountry);
   };
-
+  
   const generateQuestion = (type, allCountries, correctCountry) => {
     stopTimer(); // Ensure previous timer stops
     let timerDuration = 0; // Default timer duration
@@ -189,13 +198,6 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
     }
   }, [isFirstLoad]);
 
-  // Utility Functions
-  const getRandomCountry = (allCountries, usedCountries) => {
-    const unusedCountries = allCountries.filter(
-      (country) => !usedCountries.includes(country.country)
-    );
-    return unusedCountries[Math.floor(Math.random() * unusedCountries.length)];
-  };
 
   const getWrongCapital = (allCountries, correctCountry) => {
     const wrongCapitals = allCountries
@@ -226,12 +228,12 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
       <div className="game-info">
         <h2 className="user">{username}</h2>
         <h3 className="points">{points}</h3>
-        {/* Display timer only for easy difficulty */}
-        {difficulty === "easy" && (
-          <h3>
-            {t.timeLeft}: {timeLeft} {t.seconds}
-          </h3>
-        )}
+      {/* Display timer only for intermediate and hard difficulty */}
+      {(difficulty === "intermediate" || difficulty === "hard") && (
+        <h3>
+          {t.timeLeft}: {timeLeft} {t.seconds}
+        </h3>
+      )}
       </div>
       {message && <div className="message">{message}</div>}
       {selectedCountry && (
@@ -251,8 +253,11 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
           </div>
         </div>
       )}
-      <button onClick={() => navigate("/select-language")}>{t.exitGame}</button>
-      <button onClick={onSignOut}>{t.signOut}</button>
+      <button onClick={() => navigate("/select-difficulty")}>{t.exitGame}</button>
+      <button onClick={() => {
+        onSignOut();
+        navigate("/select-language");
+      }}>{t.signOut}</button>
     </div>
   );
 };

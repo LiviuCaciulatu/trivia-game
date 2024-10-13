@@ -42,7 +42,7 @@ div {
   
   /* Button hover effect */
   button:hover {
-    background-color: #45a049; /* Darker green on hover */
+    background-color:#FFD700;
   }
   
   /* Error message styling */

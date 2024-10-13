@@ -30,28 +30,30 @@ const SignIn = ({ onLoginSuccess, language }) => {
   };
 
   return (
-    <div>
-      <h2>{Translations[language].signIn}</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="sign-in-container">
+      <h2 className="sign-in-title">{Translations[language].signIn}</h2>
+      <form className="sign-in-form" onSubmit={handleSubmit}>
         <input
           type="text"
+          className="sign-in-input"
           placeholder={Translations[language].usernamePlaceholder || "Username"}
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
+          className="sign-in-input"
           placeholder={Translations[language].passwordPlaceholder || "Password"}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">{Translations[language].signIn}</button>
+        <button type="submit" className="sign-in-button">
+          {Translations[language].signIn}
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="sign-in-message">{message}</p>}
     </div>
   );
 };
 
 export default SignIn;
-
-

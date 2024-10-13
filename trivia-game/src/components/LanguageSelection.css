@@ -1,0 +1,33 @@
+.language-button {
+    width: 150px; /* Set a specific width for buttons */
+    height: 50px; /* Set a specific height for buttons */
+    border: none; /* Remove default border */
+    color: rgb(255, 255, 255); /* Change text color */
+    font-size: 25px; /* Font size for button text */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    background-size: cover; /* Make background cover the entire button */
+    background-position: center; /* Center the background image */
+    margin: 10px; /* Add margin between buttons */
+    border-radius: 5px; /* Optional: add rounded corners */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transition for hover effects */
+    font-family: "Bubblegum Sans", sans-serif;
+    text-shadow: 3px 3px 4px rgba(0, 0, 0, 1);
+}
+
+/* English Button */
+.english {
+    background-image: url('https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg'); /* British flag URL */
+}
+
+/* Romanian Button */
+.romanian {
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/7/73/Flag_of_Romania.svg'); /* Romanian flag URL */
+}
+
+/* Hover Effect */
+.language-button:hover {
+    transform: translateY(-2px); /* Lift the button on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+
+  

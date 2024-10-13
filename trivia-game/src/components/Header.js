@@ -1,10 +1,15 @@
 import React from 'react';
 import './Header.css';
 
-const Header = ({ language }) => {
+const Header = () => {
   return (
     <header>
-      <h1 className='title'>{language === "ro" ? "Joc de Trivia" : "Trivia Game"}</h1>
+      <h1 className='title'>
+          <>
+            <span>TRIVIA TRAIL:</span>
+            <span className='conquer'>CONQUER EUROPE!</span>
+          </>
+      </h1>
     </header>
   );
 }

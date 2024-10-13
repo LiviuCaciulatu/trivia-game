@@ -27,7 +27,7 @@ html, body {
   position: absolute;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  background: linear-gradient(to top, #87CEEB, #FFFFFF); /* Sky gradient */
+  background: linear-gradient(to top, #87CEEB, #000080); /* Sky gradient */
   z-index: 0; /* Behind everything else */
 }
 
@@ -61,14 +61,7 @@ html, body {
   }
 }
 
-/* Header Styles */
-header {
-  position: relative;
-  z-index: 1; /* Above the map */
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
+
 
 /* Additional Styling for Components */
 h1, h2, h3, p {
