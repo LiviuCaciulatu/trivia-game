@@ -1,3 +1,15 @@
+.difficulty-selection-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Bubblegum Sans", sans-serif;
+}
+
+.difficulty-selection-title{
+    font-size: 25px;
+}
+
 .difficulty-button{
     width: 150px; /* Set a specific width for buttons */
     height: 50px; /* Set a specific height for buttons */

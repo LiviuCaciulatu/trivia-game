@@ -43,12 +43,6 @@ function App() {
                 <div className="background">
                     <Header language={language} />
                     
-                    {/* Fun Background Shapes */}
-                    <div className="cloud cloud1"></div>
-                    <div className="cloud cloud2"></div>
-                    <div className="cloud cloud3"></div>
-                    
-                    
                     <Routes>
                         <Route
                             path="/"

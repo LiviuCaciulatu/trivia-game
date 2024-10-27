@@ -246,15 +246,15 @@ const Game = ({ initialPoints, username, difficulty, language, onSignOut, isSign
           </h3>
           <div className="options">
             {options.map((option, index) => (
-              <button key={index} onClick={() => handleOptionClick(option)}>
+              <button className="option-btn" key={index} onClick={() => handleOptionClick(option)}>
                 {option}
               </button>
             ))}
           </div>
         </div>
       )}
-      <button onClick={() => navigate("/select-difficulty")}>{t.exitGame}</button>
-      <button onClick={() => {
+      <button className="exit-game-btn" onClick={() => navigate("/select-difficulty")}>{t.exitGame}</button>
+      <button className="sign-out-btn" onClick={() => {
         onSignOut();
         navigate("/select-language");
       }}>{t.signOut}</button>

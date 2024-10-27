@@ -1,4 +1,13 @@
+.auth-component{
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .auth-button {
+  display: flex;
+  justify-content: center;
     width: 150px; /* Set a specific width for buttons */
     height: 50px; /* Set a specific height for buttons */
     border: none; /* Remove default border */

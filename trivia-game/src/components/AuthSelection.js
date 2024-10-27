@@ -7,7 +7,7 @@ const AuthSelection = ({ language }) => {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className="auth-component">
       <button className="auth-button sign-in" onClick={() => navigate('/signin')}>
         {Translations[language].signIn}
       </button>

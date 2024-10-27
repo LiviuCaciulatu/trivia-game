@@ -1,26 +1,3 @@
-/* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%; /* Set height to 100% for full screen */
-  width: 100%;
-  font-family: "Bubblegum Sans", sans-serif;
-  background-color: #87CEEB; /* Sky blue background */
-  overflow: hidden; /* Prevent scrollbars */
-  display: flex;
-  justify-content: center;
-}
-
-/* App Container */
-.App {
-  position: relative;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
-}
 
 /* Background Styles */
 .background {
@@ -30,38 +7,6 @@ html, body {
   background: linear-gradient(to top, #87CEEB, #000080); /* Sky gradient */
   z-index: 0; /* Behind everything else */
 }
-
-/* Fun Elements */
-.cloud {
-  position: absolute;
-  width: 100px; /* Set width of clouds */
-  height: 60px; /* Set height of clouds */
-  opacity: 0.8; /* Slight transparency */
-  background-size: cover; /* Ensure the image covers the entire area */
-}
-
-/* Cloud Images */
-
-/* Animation Keyframes */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px); /* Move up */
-  }
-}
-
-@keyframes move {
-  0% {
-    left: -100px; /* Start off-screen to the left */
-  }
-  100% {
-    left: 100vw; /* Move off-screen to the right */
-  }
-}
-
-
 
 /* Additional Styling for Components */
 h1, h2, h3, p {

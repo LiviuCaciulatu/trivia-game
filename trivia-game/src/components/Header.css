@@ -1,15 +1,23 @@
-.title {
+.header-container{
+    display: flex;
+    justify-content: center;
     margin-top: 50px;
     position: relative;
     z-index: 1; /* Above the map */
-    padding: 20px;
+    text-align: center;
+}
+
+.title {
     background-color: #000080; /* Semi-transparent white */
     background-image: url(https://static.vecteezy.com/system/resources/previews/013/054/817/non_2x/european-union-flag-europe-national-symbol-vector.jpg); /* Fading edges */
-    background-size: 100% 100%; /* Ensures gradient covers entire area */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* More pronounced shadow */
+    background-size: 100% 100%; /* Ensures gradient covers entire area */
     border-radius: 25px; /* Rounded edges for a fun effect */
-    text-align: center;
+    padding: 20px;
+    height: 18vh;
+    width: 70vh;
     animation: flagWaving 2s ease-in-out infinite; /* Animation for flag waving */
+    
 }
 
 .conquer {

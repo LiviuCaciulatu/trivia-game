@@ -12,8 +12,8 @@ function LanguageSelection({ onLanguageSelect }) {
   };
 
   return (
-    <div>
-      <h1>{Translations[localStorage.getItem("language") || "en"].selectLanguage}</h1>
+    <div className="language-container">
+      <h1 className="Language-title">{Translations[localStorage.getItem("language") || "en"].selectLanguage}</h1>
       <button className="language-button english" onClick={() => handleLanguageClick("en")}>
         {Translations["en"].english}
       </button>
