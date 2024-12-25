@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Luckiest+Guy&display=swap');
+
+//FONT
+$BubbleGumRegular: "Bubblegum Sans";
+$BubbleGumBold: $BubbleGumRegular;
+
+//COLOR PALETTE
+
+$Blue: #2093da;
+$LightBlue: #4dcfef;
+$VeryLightBlue: #91e9f2;
+$Yellow: #fcd569;
+$Red: #fc4d1d;
+
+
+//FONT SIZE
+
+$font-size-small: 1rem;
+$font-size-medium: 1.5rem;
+$font-size-large: 2rem;
+$font-size-x-large: 3rem;
+
+
+//SPACING
+
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+
+
+//BUTTONS
+
+$button-padding: 0.5rem 1rem;
+
+
+//BORDER RADIUS
+
+$small-radius: 7px;
+$medium-radius: 14px;
+
+
+//TRANSITIONS
+
+$ease-in-out: 0.3s ease-in-out;
