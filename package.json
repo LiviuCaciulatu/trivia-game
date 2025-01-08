@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "sass": "^1.83.0"
+  },
+  "devDependencies": {
+    "daisyui": "^4.12.23"
   }
 }
