@@ -1,5 +1,4 @@
 import style from "./style.module.scss"
-
 import React from "react";
 
 const SelectLanguage = () =>{

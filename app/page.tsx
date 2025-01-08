@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Navbar from "./components/Navbar/page";
 import SelectLanguage from "./components/SelectLanguage/page";
 
