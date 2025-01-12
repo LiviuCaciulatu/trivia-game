@@ -6,7 +6,8 @@ const SelectLanguage = () =>{
         <div className={style.container}>
             <div className={style.selectLanguage}>
                 <div className={style.selector}>    
-                    <button className="btn btn-info">push me</button>
+                    <button className={`${style.btnEn} btn btn-info`}>English</button>
+                    <button className={`${style.btnRo} btn btn-info`}>Romana</button>
                 </div>
             </div>
 
