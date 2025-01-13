@@ -1,0 +1,12 @@
+{
+  "select_language": {
+    "title": "Selectați Limba",
+    "language_en": "Engleză",
+    "language_ro": "Română"
+  },
+  "authentication": {
+    "title": "Autentificare",
+    "login": "Conectare",
+    "signup": "Înregistrare"
+  }
+}

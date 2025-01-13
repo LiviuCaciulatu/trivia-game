@@ -1,0 +1,13 @@
+{
+  "select_language": {
+    "title": "Select Language",
+    "language_en": "English",
+    "language_ro": "Romanian"
+  },
+  "authentication": {
+    "title": "Authentication",
+    "login": "Log-in",
+    "signup": "Sign up"
+  }
+}
+  
