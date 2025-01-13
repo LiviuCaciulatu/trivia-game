@@ -4,9 +4,6 @@ import Image from "next/image";
 import style from "./style.module.scss";
 import { useLanguage } from "../../context/LanguageContext";
 
-import enTranslations from "../../locales/en/en.json";
-import roTranslations from "../../locales/ro/ro.json";
-
 const SelectLanguage: React.FC = () => {
   const { language, setLanguage } = useLanguage();
 

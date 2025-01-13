@@ -1,11 +1,6 @@
-import en from '../locales/en/en.json';
-import ro from '../locales/ro/ro.json';
 
-const translations: Record<string, any> = {
-  en,
-  ro,
+const translate = (key: string, language: 'en' | 'ro', translations: { [key: string]: { [key: string]: string } }): string => {
+  return translations[language][key] || key;
 };
 
-export const translate = (lang: string, key: string): string => {
-  return translations[lang]?.[key] || key;
-};
+export default translate;
