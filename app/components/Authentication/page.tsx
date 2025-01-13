@@ -1,22 +1,23 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import style from "./style.module.scss";
 import { useLanguage } from "../../context/LanguageContext";
+import style from "./style.module.scss";
 
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 
-const SelectLanguage: React.FC = () => {
-  const { language, setLanguage } = useLanguage();
+const Authentication: React.FC = () => {
+  const { language } = useLanguage();
 
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
-  };
+  const translations =
+    language === "ro"
+      ? roTranslations.authentication
+      : enTranslations.authentication;
 
   return (
     <div className={style.container}>
-      <div className={style.selectLanguage}>
+      <div className={style.authentication}>
         <div className={style.selector}>
           <div className={`${style.logo}`}>
             <Image
@@ -28,18 +29,12 @@ const SelectLanguage: React.FC = () => {
             />
             <h1 className={`${style.logoName}`}>Trivia</h1>
           </div>
-          <h2 className={style.title}>Select Language</h2>
-          <button
-            onClick={() => handleLanguageChange("en")}
-            className={`${style.btnEn} btn btn-info`}
-          >
-            English
+          <h2 className={style.title}>{translations.title}</h2>
+          <button className={`${style.btnLogIn} btn btn-info`}>
+            {translations.login}
           </button>
-          <button
-            onClick={() => handleLanguageChange("ro")}
-            className={`${style.btnRo} btn btn-info`}
-          >
-            Romana
+          <button className={`${style.btnSignUp} btn btn-info`}>
+            {translations.signup}
           </button>
         </div>
       </div>
@@ -47,4 +42,4 @@ const SelectLanguage: React.FC = () => {
   );
 };
 
-export default SelectLanguage;
+export default Authentication;

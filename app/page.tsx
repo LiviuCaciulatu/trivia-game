@@ -1,11 +1,20 @@
-import Navbar from "./components/Navbar/page";
+"use client"
+import { useLanguage } from "./context/LanguageContext";
 import SelectLanguage from "./components/SelectLanguage/page";
+import Authentication from "./components/Authentication/page";
 
 export default function Home() {
+  const { language } = useLanguage();
+
   return (
     <div>
-      <Navbar />
-      <SelectLanguage />
+
+      {language === 'en' || language === 'ro' ? (
+        <Authentication />
+      ) : (
+        <SelectLanguage />
+      )}
     </div>
   );
 }
+

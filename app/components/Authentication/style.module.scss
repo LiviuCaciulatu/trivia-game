@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.selectLanguage {
+.authentication {
   width: 1024px;
   height: 100vh;
   background-color: gv.$LightBlue;
@@ -58,8 +58,9 @@
   margin-bottom: 2rem;
 }
 
-.btnEn,
-.btnRo {
+.btnLogIn,
+.btnSignUp {
+  background-color: gv.$Yellow;
   width: 150px;
   height: 50px;
   display: inline-flex;
@@ -67,33 +68,21 @@
   align-items: center;
   font-family: gv.$BubbleGumRegular;
   font-size: gv.$font-size-large;
-  text-shadow:
-    1px 1px 0 white,
-    -1px -1px 0 white,
-    1px -1px 0 white,
-    -1px 1px 0 white;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btnEn:hover,
-.btnRo:hover {
+.btnLogIn:hover,
+.btnSignUp:hover {
+  background-color: gv.$Red;
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btnRo {
-  background: url('/svg/flags/rou.svg') no-repeat center center;
-  background-size: cover;
-}
-
-.btnEn {
-  background: url('/svg/flags/gbr.svg') no-repeat center center;
-  background-size: cover;
-  margin-bottom: 1rem;
-}
-
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0) rotateY(0deg);
   }
   40% {
