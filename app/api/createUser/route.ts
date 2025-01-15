@@ -10,6 +10,10 @@ interface CreateUserRequest {
   date_of_birth: string;
 }
 
+interface PgError extends Error {
+  code?: string;
+}
+
 export async function POST(req: Request): Promise<Response> {
   try {
     const { first_name, last_name, username, password, country, points, date_of_birth }: CreateUserRequest = await req.json();
@@ -38,7 +42,7 @@ export async function POST(req: Request): Promise<Response> {
   } catch (error) {
     console.error('Error during user creation:', error);
 
-    if (error instanceof Error && (error as any).code === '23505') {
+    if (error instanceof Error && 'code' in error && (error as PgError).code === '23505') {
       return new Response(
         JSON.stringify({ error: 'User already exists' }),
         { status: 409, headers: { 'Content-Type': 'application/json' } }
@@ -51,3 +55,4 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 }
+
