@@ -7,11 +7,7 @@ import style from "./style.module.scss";
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 
-interface AuthenticationProps {
-  onSignUpClick: () => void;
-}
-
-const Authentication: React.FC<AuthenticationProps> = ({ onSignUpClick }) => {
+const Authentication: React.FC<{ onSignUpClick: () => void }> = ({ onSignUpClick }) => {
   const { language } = useLanguage();
 
   const translations =
