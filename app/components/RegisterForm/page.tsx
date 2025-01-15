@@ -134,9 +134,13 @@ const RegisterForm = () => {
         date_of_birth: "",
       });
 
-    } catch (error) {
-      setError(errorTranslations.generic);
-      setTimeout(() => setError(null), 4000);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(errorTranslations.generic);
+        setTimeout(() => setError(null), 4000);
+      } else {
+        console.error("An unexpected error occurred:", error);
+      }
     }
   };
 
