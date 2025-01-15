@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/LanguageContext"; // Adjust the import path if needed
 import style from "./style.module.scss";
-
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 
-// Remove the explicit prop typing, this way it's easier for Next.js to infer it
-const Authentication = ({ onSignUpClick }: { onSignUpClick: () => void }) => {
-  const { language } = useLanguage();
 
+const Authentication: React.FC<{ onSignUpClick: () => void }> = ({
+  onSignUpClick,
+}) => {
+  const { language } = useLanguage();
   const translations =
     language === "ro"
       ? roTranslations.authentication
