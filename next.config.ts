@@ -1,6 +1,4 @@
 const nextConfig = {
-    // output: 'standalone',
-    // output: 'export',
     images: {
         remotePatterns: [
             {

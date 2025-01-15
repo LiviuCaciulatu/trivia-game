@@ -8,6 +8,20 @@
     "title": "Authentication",
     "login": "Log-in",
     "signup": "Sign up"
+  },
+  "register_form": {
+    "title": "Register",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "username": "Username",
+    "password": "Password",
+    "country": "Country",
+    "date_of_birth": "Date of Birth",
+    "register": "Register"
+  },
+  "error": {
+    "username_exists": "Username already exists",
+    "generic": "An error occurred, please try again"
   }
 }
   

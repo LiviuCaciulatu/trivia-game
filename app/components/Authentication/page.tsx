@@ -7,7 +7,11 @@ import style from "./style.module.scss";
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 
-const Authentication: React.FC = () => {
+interface AuthenticationProps {
+  onSignUpClick: () => void;
+}
+
+const Authentication: React.FC<AuthenticationProps> = ({ onSignUpClick }) => {
   const { language } = useLanguage();
 
   const translations =
@@ -33,7 +37,10 @@ const Authentication: React.FC = () => {
           <button className={`${style.btnLogIn} btn btn-info`}>
             {translations.login}
           </button>
-          <button className={`${style.btnSignUp} btn btn-info`}>
+          <button
+            className={`${style.btnSignUp} btn btn-info`}
+            onClick={onSignUpClick}
+          >
             {translations.signup}
           </button>
         </div>
