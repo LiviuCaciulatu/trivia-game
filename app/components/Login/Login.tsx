@@ -45,7 +45,7 @@ const Login = () => {
       } else {
         setSuccess("Login successful!");
       }
-    } catch (error) {
+    } catch (err) {
       setError("An unexpected error occurred. Please try again.");
     }
   };
