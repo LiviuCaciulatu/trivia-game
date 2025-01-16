@@ -1,9 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';  // Ensure you're using Next.js types for request/response
+import { NextRequest, NextResponse } from 'next/server'; // Use NextRequest and NextResponse for API routes
 import { Client } from 'pg';
 
-// The GET handler with the correct typing and awaiting of params
-export async function GET(req: NextRequest, context: { params: { id: string } }): Promise<NextResponse> {
-  const { id } = context.params;  // Destructure params directly, params are already available
+export async function GET(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse> {
+  const { id } = params;
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
