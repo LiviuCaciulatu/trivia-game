@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'; // Use NextRequest and NextResponse for API routes
+import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'pg';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse> {
-  const { id } = params;
+// Automatically inferred `params` type in Next.js 13
+export async function GET(req: NextRequest, context: { params: { id: string } }): Promise<NextResponse> {
+  const { id } = context.params;  // Access params directly
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
