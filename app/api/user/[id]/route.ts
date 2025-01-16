@@ -1,13 +1,14 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'pg';
 
-interface Context {
-  params: {
-    id: string;
-  };
-}
+export async function GET(req: NextRequest): Promise<NextResponse> {
 
-export async function GET(req: Request, context: Context): Promise<Response> {
-  const { id } = await context.params;
+  const { pathname } = req.nextUrl;
+  const userId = pathname.split('/')[pathname.split('/').length - 1];
+
+  if (!userId) {
+    return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+  }
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -21,19 +22,19 @@ export async function GET(req: Request, context: Context): Promise<Response> {
       FROM trivia.users
       WHERE id = $1
     `;
-    const result = await client.query(query, [id]);
+    const result = await client.query(query, [userId]);
 
     if (result.rows.length === 0) {
-      return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 });
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     const user = result.rows[0];
     const currentDate = new Date();
     const birthDate = new Date(user.date_of_birth);
-    const age = currentDate.getFullYear() - birthDate.getFullYear() - 
+    const age = currentDate.getFullYear() - birthDate.getFullYear() -
                 (currentDate < new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0);
 
-    return new Response(JSON.stringify({
+    return NextResponse.json({
       id: user.id,
       username: user.username,
       firstName: user.first_name,
@@ -41,10 +42,10 @@ export async function GET(req: Request, context: Context): Promise<Response> {
       country: user.country,
       points: user.points,
       age: age,
-    }), { status: 200 });
+    }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch user details' }), { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch user details' }, { status: 500 });
   } finally {
     await client.end();
   }
