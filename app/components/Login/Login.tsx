@@ -9,7 +9,7 @@ import Image from "next/image";
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>('');
   const [success, setSuccess] = useState<string | null>(null);
   const { language } = useLanguage();
 
