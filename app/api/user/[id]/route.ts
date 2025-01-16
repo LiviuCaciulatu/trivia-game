@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'pg';
 
-// Automatically inferred `params` type in Next.js 13
-export async function GET(req: NextRequest, context: { params: { id: string } }): Promise<NextResponse> {
-  const { id } = context.params;  // Access params directly
+export async function GET(req: NextRequest, { params }: { params: { id: string } }): Promise<NextResponse> {
+  const { id } = params;
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
