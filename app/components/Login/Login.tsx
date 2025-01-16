@@ -90,7 +90,7 @@ const Login = () => {
           <input
             type="text"
             name="username"
-            placeholder="Username"
+            placeholder={translations.username}
             value={formData.username}
             onChange={handleChange}
             required
@@ -99,7 +99,7 @@ const Login = () => {
           <input
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder={translations.password}
             value={formData.password}
             onChange={handleChange}
             required
