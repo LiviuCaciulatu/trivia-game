@@ -28,6 +28,12 @@
     "password": "Password",
     "login": "Login",
     "title": "Authentication"
+  },
+  "menu": {
+    "title": "Main Menu",
+    "startGame": "Start Game",
+    "viewProfile": "View Profile",
+    "logout": "Logout"
   }
 }
   

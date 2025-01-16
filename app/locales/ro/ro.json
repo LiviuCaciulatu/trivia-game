@@ -28,5 +28,11 @@
     "password": "Parolă",
     "login": "Conectare",
     "title": "Autentificare"
+  },
+  "menu": {
+    "title": "Meniu Principal",
+    "startGame": "Începe Jocul",
+    "viewProfile": "Vizualizează Profilul",
+    "logout": "Deconectare"
   }
 }

@@ -6,12 +6,16 @@ import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
 import Image from "next/image";
+import { useRouter } from "next/navigation"; // For redirection
+import { useUser } from '../../context/UserContext';
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const { language } = useLanguage();
+  const { fetchUserData } = useUser();
+  const router = useRouter();
 
   const translations =
     language === "ro" ? roTranslations.login_form : enTranslations.login_form;
@@ -45,6 +49,11 @@ const Login = () => {
         setTimeout(() => setError(null), 5000);
       } else {
         setSuccess("Login successful!");
+        await fetchUserData(data.user.id);
+
+
+        router.push("/menu");
+
         setTimeout(() => setSuccess(null), 5000);
       }
     } catch {
