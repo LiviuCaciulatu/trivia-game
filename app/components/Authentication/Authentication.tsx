@@ -1,16 +1,21 @@
 "use client";
+
 import React from "react";
 import Image from "next/image";
-import { useLanguage } from "../../context/LanguageContext"; // Adjust the import path if needed
+import { useLanguage } from "../../context/LanguageContext";
 import style from "./style.module.scss";
+
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 
+interface AuthenticationProps {
+  onSignUpClick: () => void;
+  onLoginClick: () => void;
+}
 
-const Authentication: React.FC<{ onSignUpClick: () => void }> = ({
-  onSignUpClick,
-}) => {
+const Authentication: React.FC<AuthenticationProps> = ({ onSignUpClick, onLoginClick }) => {
   const { language } = useLanguage();
+
   const translations =
     language === "ro"
       ? roTranslations.authentication
@@ -31,7 +36,10 @@ const Authentication: React.FC<{ onSignUpClick: () => void }> = ({
             <h1 className={`${style.logoName}`}>Trivia</h1>
           </div>
           <h2 className={style.title}>{translations.title}</h2>
-          <button className={`${style.btnLogIn} btn btn-info`}>
+          <button
+            className={`${style.btnLogIn} btn btn-info`}
+            onClick={onLoginClick}
+          >
             {translations.login}
           </button>
           <button

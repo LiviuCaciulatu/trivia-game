@@ -6,60 +6,8 @@ import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
 import Image from "next/image";
+import CountrySelect from "../CountrySelect";
 
-const europeanCountries = [
-  "Albania",
-  "Andorra",
-  "Armenia",
-  "Austria",
-  "Azerbaijan",
-  "Belarus",
-  "Belgium",
-  "Bosnia and Herzegovina",
-  "Bulgaria",
-  "Croatia",
-  "Cyprus",
-  "Czech Republic",
-  "Denmark",
-  "Estonia",
-  "Finland",
-  "France",
-  "Georgia",
-  "Germany",
-  "Greece",
-  "Hungary",
-  "Iceland",
-  "Ireland",
-  "Italy",
-  "Kazakhstan",
-  "Kosovo",
-  "Latvia",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Malta",
-  "Moldova",
-  "Monaco",
-  "Montenegro",
-  "Netherlands",
-  "North Macedonia",
-  "Norway",
-  "Poland",
-  "Portugal",
-  "Romania",
-  "Russia",
-  "San Marino",
-  "Serbia",
-  "Slovakia",
-  "Slovenia",
-  "Spain",
-  "Sweden",
-  "Switzerland",
-  "Turkey",
-  "Ukraine",
-  "United Kingdom",
-  "Vatican City",
-];
 
 const RegisterForm = () => {
   const { language } = useLanguage();
@@ -211,22 +159,11 @@ const RegisterForm = () => {
             required
             className={`${style.inputField} input input-bordered flex items-center gap-2`}
           />
-          <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
+          <CountrySelect 
+            value={formData.country} 
+            onChange={handleChange} 
             className={`${style.selectField} select select-bordered w-full max-w-xs`}
-          >
-            <option value="" disabled>
-              Select your country
-            </option>
-            {europeanCountries.map((country) => (
-              <option key={country} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
+          />
           <input
             name="date_of_birth"
             type="date"

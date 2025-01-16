@@ -22,6 +22,12 @@
   "error": {
     "username_exists": "Username already exists",
     "generic": "An error occurred, please try again"
+  },
+  "login_form": {
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "title": "Authentication"
   }
 }
   

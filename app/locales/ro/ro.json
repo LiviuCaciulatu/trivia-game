@@ -22,5 +22,11 @@
   "error": {
     "username_exists": "Numele de utilizator exista deja",
     "generic": "An error occurred, please try again"
+  },
+  "login_form": {
+    "username": "Nume de utilizator",
+    "password": "Parolă",
+    "login": "Conectare",
+    "title": "Autentificare"
   }
 }
