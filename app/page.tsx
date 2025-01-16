@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useLanguage } from "./context/LanguageContext";
 import SelectLanguage from "./components/SelectLanguage/page";
-import Authentication from "./components/Authentication/page";
-import RegisterForm from "./components/RegisterForm/page";
+import Authentication from "./components/Authentication/Autehntication";
+import RegisterForm from "./components/RegisterForm/RegisterForm";
 
 export default function Home() {
   const { language } = useLanguage();
