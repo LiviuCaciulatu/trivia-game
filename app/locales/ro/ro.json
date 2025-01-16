@@ -8,5 +8,19 @@
     "title": "Autentificare",
     "login": "Conectare",
     "signup": "Înregistrare"
+  },
+  "register_form": {
+    "title": "Înregistrează-te",
+    "first_name": "Prenume",
+    "last_name": "Nume",
+    "username": "Nume de utilizator",
+    "password": "Parolă",
+    "country": "Țară",
+    "date_of_birth": "Data nasterii",
+    "register": "Înregistrează-te"
+  },
+  "error": {
+    "username_exists": "Numele de utilizator exista deja",
+    "generic": "An error occurred, please try again"
   }
 }
