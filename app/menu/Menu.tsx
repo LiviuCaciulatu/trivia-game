@@ -29,11 +29,7 @@ const Menu = () => {
   return (
     <div className={style.container}>
       <div className={style.menu}>
-        <Header
-          welcomeMessage={`Welcome, ${user.username}!`}
-          title={translations.title}
-          language={language || 'en'}
-        />
+        <Header language={language || 'en'} />
         <MenuOptions
           startGameText={translations.startGame}
           viewProfileText={translations.viewProfile}
