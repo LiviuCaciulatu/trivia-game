@@ -1,18 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
 import Image from "next/image";
-import { useRouter } from "next/navigation"; // For redirection
-import { useUser } from '../../context/UserContext';
+import { useRouter } from "next/navigation";
+import { useUser } from "../../context/UserContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isExiting, setIsExiting] = useState(false); // Fade-out state
+
   const { language } = useLanguage();
   const { fetchUserData } = useUser();
   const router = useRouter();
@@ -51,10 +53,11 @@ const Login = () => {
         setSuccess("Login successful!");
         await fetchUserData(data.user.id);
 
+        setIsExiting(true);
 
-        router.push("/menu");
-
-        setTimeout(() => setSuccess(null), 5000);
+        setTimeout(() => {
+          router.push("/menu");
+        }, 300);
       }
     } catch {
       setError("An unexpected error occurred. Please try again.");
@@ -62,27 +65,8 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => setError(null), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    const handleClick = () => {
-      setError(null);
-    };
-
-    document.addEventListener("click", handleClick);
-
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, []);
-
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${isExiting ? style.exit : ""}`}>
       <div className={style.login}>
         <div className={style.logo}>
           <Image
@@ -103,7 +87,7 @@ const Login = () => {
             value={formData.username}
             onChange={handleChange}
             required
-            className={`${style.inputField} input input-bordered flex items-center gap-2`}
+            className={`${style.inputField} input input-bordered`}
           />
           <input
             type="password"
@@ -112,7 +96,7 @@ const Login = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            className={`${style.inputField} input input-bordered flex items-center gap-2`}
+            className={`${style.inputField} input input-bordered`}
           />
           <button type="submit" className={`${style.submitButton} btn btn-info`}>
             {translations.login}

@@ -34,6 +34,10 @@
     "startGame": "Start Game",
     "viewProfile": "View Profile",
     "logout": "Logout"
-  }
+  },
+  "header": {
+  "welcome_message": "Welcome to Trivia!",
+  "title": "Let's Get Started"
+}
 }
   

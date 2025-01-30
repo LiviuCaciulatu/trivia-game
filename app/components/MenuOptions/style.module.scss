@@ -1,0 +1,27 @@
+@use "../../styles/globalVariables" as gv;
+
+.menuOptions{
+    width: 1024px;
+    height: 40vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menuButton{
+    background-color: gv.$Yellow;
+    width: 20rem;
+    height: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: gv.$BubbleGumRegular;
+    font-size: gv.$font-size-large;
+    margin-top: 1rem;
+}
+
+.menuButton:hover{
+    background-color: gv.$Red;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

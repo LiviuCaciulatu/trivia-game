@@ -34,5 +34,9 @@
     "startGame": "Începe Jocul",
     "viewProfile": "Vizualizează Profilul",
     "logout": "Deconectare"
-  }
+  },
+  "header": {
+  "welcome_message": "Bine ai venit la Trivia!",
+  "title": "Să începem"
+}
 }
