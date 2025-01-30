@@ -5,15 +5,13 @@ import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 
 interface HeaderProps {
-  title: string;
-  welcomeMessage: string;
-  language: string; // Add language prop
+  language: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, welcomeMessage, language }) => {
+const Header: React.FC<HeaderProps> = ({ language }) => {
   const translations = language === "ro"
-    ? roTranslations.register_form
-    : enTranslations.register_form;
+    ? roTranslations.header
+    : enTranslations.header;
 
   return (
     <div className={style.container}>
@@ -28,8 +26,8 @@ const Header: React.FC<HeaderProps> = ({ title, welcomeMessage, language }) => {
           />
           <h1 className={style.logoName}>Trivia</h1>
         </div>
-        <h2 className={style.welcome}>{welcomeMessage}</h2>
-        <h1 className={style.title}>{title}</h1>
+        <h2 className={style.welcome}>{translations.welcome_message}</h2>
+        <h1 className={style.title}>{translations.title}</h1>
         </div>
     </div>
   );
