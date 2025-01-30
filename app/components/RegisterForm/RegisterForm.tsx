@@ -2,15 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import { useUser } from "../../context/UserContext";
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
 import Image from "next/image";
 import CountrySelect from "../CountrySelect";
-
+import { useRouter } from "next/navigation";
 
 const RegisterForm = () => {
   const { language } = useLanguage();
+  const { fetchUserData } = useUser();
+  const router = useRouter();
+  const [isExiting, setIsExiting] = useState(false);
 
   const translations =
     language === "ro"
@@ -42,19 +46,13 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const formattedData = {
-      ...formData,
-      date_of_birth: formData.date_of_birth,
-    };
+    setError(null);
 
     try {
       const res = await fetch("/api/createUser", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formattedData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
 
       if (res.status === 409) {
@@ -69,26 +67,32 @@ const RegisterForm = () => {
         return;
       }
 
-      const data = await res.json();
-      console.log(data);
-
-      setFormData({
-        first_name: "",
-        last_name: "",
-        username: "",
-        password: "",
-        country: "",
-        points: 0,
-        date_of_birth: "",
+      const loginRes = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+        }),
       });
 
-    } catch (error: unknown) {
-      if (error instanceof Error) {
+      if (!loginRes.ok) {
         setError(errorTranslations.generic);
-        setTimeout(() => setError(null), 4000);
-      } else {
-        console.error("An unexpected error occurred:", error);
+        setTimeout(() => setError(null), 5000);
+        return;
       }
+
+      const loginData = await loginRes.json();
+      await fetchUserData(loginData.user.id);
+
+      setIsExiting(true);
+
+      setTimeout(() => {
+        router.push("/menu");
+      }, 500);
+    } catch {
+      setError(errorTranslations.generic);
+      setTimeout(() => setError(null), 4000);
     }
   };
 
@@ -99,20 +103,8 @@ const RegisterForm = () => {
     }
   }, [error]);
 
-  useEffect(() => {
-    const handleClick = () => {
-      setError(null);
-    };
-  
-    document.addEventListener("click", handleClick);
-  
-    return () => {
-      document.removeEventListener("click", handleClick);
-    };
-  }, []);
-
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${isExiting ? style.exit : ""}`}>
       <div className={style.register}>
         <div className={style.logo}>
           <Image
@@ -159,10 +151,10 @@ const RegisterForm = () => {
             required
             className={`${style.inputField} input input-bordered flex items-center gap-2`}
           />
-          <CountrySelect 
-            value={formData.country} 
-            onChange={handleChange} 
-            className={`${style.selectField} select select-bordered w-full max-w-xs`}
+          <CountrySelect
+            value={formData.country}
+            onChange={handleChange}
+            className={style.selectField}
           />
           <input
             name="date_of_birth"
@@ -173,34 +165,20 @@ const RegisterForm = () => {
             required
             className={`${style.inputField} input input-bordered flex items-center gap-2`}
           />
-        </form>
           <div className="submitButtonWrapper">
             <button
-              type="button"
+              type="submit"
               className={`${style.submitButton} btn btn-info`}
-              onClick={handleSubmit}
             >
               {translations.register}
             </button>
           </div>
-          {error && (
-            <div role="alert" className={`${style.alert} alert alert-error mt-4`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 shrink-0 stroke-current"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>{error}</span>
-            </div>
-          )}
+        </form>
+        {error && (
+          <div role="alert" className={`${style.alert} alert alert-error mt-4`}>
+            <span>{error}</span>
+          </div>
+        )}
       </div>
     </div>
   );

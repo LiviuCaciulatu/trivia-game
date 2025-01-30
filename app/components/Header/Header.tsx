@@ -27,10 +27,9 @@ const Header: React.FC<HeaderProps> = ({ title, welcomeMessage, language }) => {
             className={style.logoImg}
           />
           <h1 className={style.logoName}>Trivia</h1>
-          <h2 className={style.title}>{translations.title}</h2>
         </div>
-        <h1 className={style.title}>{title}</h1>
         <h2 className={style.welcome}>{welcomeMessage}</h2>
+        <h1 className={style.title}>{title}</h1>
         </div>
     </div>
   );

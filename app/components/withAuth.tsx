@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useUser } from '../context/UserContext';
 import { useRouter } from 'next/navigation';
 
@@ -7,8 +7,13 @@ const withAuth = <P extends object>(Component: React.ComponentType<P>) => {
     const { user } = useUser();
     const router = useRouter();
 
+    useEffect(() => {
+      if (!user) {
+        router.push('/authentication');
+      }
+    }, [user, router]);
+
     if (!user) {
-      router.push('/login');
       return <div>Loading...</div>;
     }
 
@@ -21,4 +26,3 @@ const withAuth = <P extends object>(Component: React.ComponentType<P>) => {
 };
 
 export default withAuth;
-

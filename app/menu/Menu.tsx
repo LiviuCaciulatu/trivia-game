@@ -30,8 +30,8 @@ const Menu = () => {
     <div className={style.container}>
       <div className={style.menu}>
         <Header
-          title={translations.title}
           welcomeMessage={`Welcome, ${user.username}!`}
+          title={translations.title}
           language={language || 'en'}
         />
         <MenuOptions

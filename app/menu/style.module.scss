@@ -8,4 +8,10 @@
     align-items: center;
     flex-direction: column;
     font-family: gv.$BubbleGumRegular;
+    background: linear-gradient(to bottom, gv.$Blue, gv.$VeryLightBlue);
+}
+
+.menu{
+    font-size: gv.$font-size-large;
+    color: gv.$Blue;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import style from "./style.module.scss";
@@ -15,14 +15,22 @@ interface AuthenticationProps {
 
 const Authentication: React.FC<AuthenticationProps> = ({ onSignUpClick, onLoginClick }) => {
   const { language } = useLanguage();
+  const [isExiting, setIsExiting] = useState(false);
 
   const translations =
     language === "ro"
       ? roTranslations.authentication
       : enTranslations.authentication;
 
+  const handleNavigation = (action: () => void) => {
+    setIsExiting(true);
+    setTimeout(() => {
+      action();
+    }, 500);
+  };
+
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${isExiting ? style.exit : ""}`}>
       <div className={style.authentication}>
         <div className={style.selector}>
           <div className={`${style.logo}`}>
@@ -38,13 +46,13 @@ const Authentication: React.FC<AuthenticationProps> = ({ onSignUpClick, onLoginC
           <h2 className={style.title}>{translations.title}</h2>
           <button
             className={`${style.btnLogIn} btn btn-info`}
-            onClick={onLoginClick}
+            onClick={() => handleNavigation(onLoginClick)}
           >
             {translations.login}
           </button>
           <button
             className={`${style.btnSignUp} btn btn-info`}
-            onClick={onSignUpClick}
+            onClick={() => handleNavigation(onSignUpClick)}
           >
             {translations.signup}
           </button>

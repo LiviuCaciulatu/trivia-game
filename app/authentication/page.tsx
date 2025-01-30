@@ -4,6 +4,7 @@ import { useState } from "react";
 import Authentication from "../components/Authentication/Authentication";
 import RegisterForm from "../components/RegisterForm/RegisterForm";
 import Login from "../components/Login/Login";
+import TriviaMap from "../components/TriviaMap/TriviaMap";
 
 export default function AuthenticationPage() {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
