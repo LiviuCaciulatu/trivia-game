@@ -1,0 +1,76 @@
+@use "../../styles/globalVariables" as gv;
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: gv.$Yellow;
+  font-size: 5rem;
+  margin-bottom: 2rem;
+}
+
+.userName {
+  color: gv.$Red;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.subContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user{
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.userData {
+  width: auto;
+  min-width: 12rem;
+  height: 7rem;
+  color: gv.$Red;
+  background-color: gv.$Yellow;
+  margin: 1rem;
+  border-radius: 1rem;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.userData:hover{
+  background-color: gv.$Green;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.statTitle {
+  color: gv.$Blue
+}
+
+.statValue {
+  color: gv.$Red
+}
+
+.backButton{
+  margin-top: 2rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  background-color: gv.$Yellow;
+  font-size: gv.$font-size-medium;
+  box-shadow: none;
+}
+
+.backButton:hover{
+  background-color: gv.$Red;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

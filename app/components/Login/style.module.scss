@@ -9,6 +9,33 @@
   flex-direction: column;
   font-family: gv.$BubbleGumRegular;
   background: linear-gradient(to bottom, gv.$Blue, gv.$VeryLightBlue);
+  background-image: url("/svg/skylines/skyline-2-blue.svg");
+  background-repeat: no-repeat;
+  background-position: center calc(100% + 50px);
+  background-size: contain;
+  animation: riseUp 2s ease-out forwards;
+}
+
+.container.exit {
+  animation: fallDown 1s ease-out forwards;
+}
+
+@keyframes riseUp {
+  from {
+    background-position: center calc(180% + 50px);
+  }
+  to {
+    background-position: center calc(100% + 50px);
+  }
+}
+
+@keyframes fallDown {
+  from {
+    background-position: center calc(100% + 50px);
+  }
+  to {
+    background-position: center calc(180% + 50px);
+  }
 }
 
 .login {

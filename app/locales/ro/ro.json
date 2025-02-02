@@ -38,5 +38,17 @@
   "header": {
   "welcome_message": "Bine ai venit la Trivia!",
   "title": "Să începem"
+},
+"profile": {
+  "profileTitle": "Aceasta este puterea cunoștințelor tale",
+  "welcome": "Bine ai venit",
+  "email": "Email",
+  "country": "Țara",
+  "first_name": "Prenume",
+  "last_name": "Nume",
+  "username": "Nume de utilizator",
+  "points": "Puncte",
+  "age": "Varsta",
+  "backBtn": "Inapoi la Meniul Principal"
 }
 }
