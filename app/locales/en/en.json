@@ -38,6 +38,18 @@
   "header": {
   "welcome_message": "Welcome to Trivia!",
   "title": "Let's Get Started"
+},
+"profile": {
+  "profileTitle": "Here are your Brain Power Stats:",
+  "welcome": "Welcome",
+  "email": "Email",
+  "country": "Country",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "username": "Username",
+  "points": "Points",
+  "age": "Age",
+  "backBtn": "Back to Main Menu"
 }
 }
   

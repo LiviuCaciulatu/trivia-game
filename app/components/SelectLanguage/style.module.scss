@@ -7,7 +7,35 @@
   justify-content: center;
   align-items: center;
   background: linear-gradient(to bottom, gv.$Blue, gv.$VeryLightBlue);
+  background-image: url("/svg/skylines/skyline-3-blue.svg");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: contain;
+  animation: riseUp 2s ease-out forwards;
 }
+
+.container.exit {
+  animation: fallDown 0.5s ease-out forwards;
+}
+
+@keyframes riseUp {
+  from {
+    background-position: 0% 180%;
+  }
+  to {
+    background-position: bottom center;
+  }
+}
+
+@keyframes fallDown {
+  from {
+    background-position: bottom center;
+  }
+  to {
+    background-position: 0% 180%;
+  }
+}
+
 
 .selectLanguage {
   width: 1024px;
