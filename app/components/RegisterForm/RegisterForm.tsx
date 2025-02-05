@@ -10,7 +10,11 @@ import Image from "next/image";
 import CountrySelect from "../CountrySelect";
 import { useRouter } from "next/navigation";
 
-const RegisterForm = () => {
+interface RegisterFormProps {
+  onBack: () => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ onBack }) => {
   const { language } = useLanguage();
   const { fetchUserData } = useUser();
   const router = useRouter();
@@ -154,7 +158,7 @@ const RegisterForm = () => {
           <CountrySelect
             value={formData.country}
             onChange={handleChange}
-            className={style.selectField}
+            className={`${style.inputField} input input-bordered flex items-center gap-2`}
           />
           <input
             name="date_of_birth"
@@ -173,6 +177,14 @@ const RegisterForm = () => {
               {translations.register}
             </button>
           </div>
+            <button
+              type="button"
+              onClick={onBack}
+              className={`${style.backButton} btn btn-info`}
+            >
+              {translations.back}
+            </button>
+
         </form>
         {error && (
           <div role="alert" className={`${style.alert} alert alert-error mt-4`}>

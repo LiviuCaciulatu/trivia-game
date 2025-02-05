@@ -17,7 +17,9 @@
     "password": "Parolă",
     "country": "Țară",
     "date_of_birth": "Data nasterii",
-    "register": "Înregistrează-te"
+    "register": "Înregistrează-te",
+    "back": "Înapoi"
+
   },
   "error": {
     "username_exists": "Numele de utilizator exista deja",
@@ -50,5 +52,15 @@
   "points": "Puncte",
   "age": "Varsta",
   "backBtn": "Inapoi la Meniul Principal"
+},
+"game": {
+  
+},
+"navbar":{
+  "menu": "Meniu",
+  "newGame": "Joc Nou",
+  "yourProfile": "Profilul Tau",
+  "quit": "Iesi din Joc",
+  "logOut": "Deconectare"
 }
 }

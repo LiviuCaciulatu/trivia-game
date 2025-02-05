@@ -73,15 +73,16 @@
   text-align: center;
 }
 
-.submitButton {
+.submitButton, .backButton {
     margin-top: 2rem;
     padding-left: 4rem;
     padding-right: 4rem;
-  background-color: gv.$Yellow;
-  font-size: gv.$font-size-medium;
+    background-color: gv.$Yellow;
+    font-size: gv.$font-size-medium;
+    width: 100%;
 }
 
-.submitButton:hover {
+.submitButton:hover,.backButton:hover {
   background-color: gv.$Red;
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -92,6 +93,7 @@
     display: flex;
     justify-content: center;
     margin-top: 2rem;
+    width: 100%;
   }
 
   .alert {

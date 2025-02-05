@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import style from "./Header.module.scss";
+import style from "./style.module.scss";
 import Image from "next/image";
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = ({ language, isExiting = false }) => {
           <h1 className={style.logoName}>Trivia</h1>
         </div>
         <h2 className={style.welcome}>{translations.welcome_message}</h2>
-        <h1 className={style.title}>{translations.title}</h1>
+        {/* <h1 className={style.title}>{translations.title}</h1> */}
       </div>
     </div>
   );
