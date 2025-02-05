@@ -19,10 +19,15 @@ export default function AuthenticationPage() {
     setShowRegisterForm(false);
   };
 
+  const handleBack = () => {
+    setShowRegisterForm(false);
+    setShowLoginForm(false);
+  };
+
   return (
     <div>
       {showRegisterForm ? (
-        <RegisterForm />
+        <RegisterForm onBack={handleBack} />
       ) : showLoginForm ? (
         <Login />
       ) : (

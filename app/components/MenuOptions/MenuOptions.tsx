@@ -10,6 +10,7 @@ interface MenuOptionsProps {
   logoutText: string;
   userId: string;
   onLogout: () => void;
+  onStartGame: () => void;
 }
 
 const MenuOptions: React.FC<MenuOptionsProps> = ({
@@ -17,6 +18,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
   viewProfileText,
   logoutText,
   onLogout,
+  onStartGame,
 }) => {
   const router = useRouter();
   const [isExiting, setIsExiting] = useState(false);
@@ -33,7 +35,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
     <div className={`${style.menuOptions} ${isExiting ? style.exit : ""}`}>
       <button
         className={`${style.menuButton} btn btn-info`}
-        onClick={() => handleNavigation("/game")}
+        onClick={onStartGame}
       >
         {startGameText}
       </button>
@@ -43,13 +45,7 @@ const MenuOptions: React.FC<MenuOptionsProps> = ({
       >
         {viewProfileText}
       </button>
-      <button
-        className={`${style.menuButton} btn btn-info`}
-        onClick={() => {
-          setIsExiting(true);
-          setTimeout(() => onLogout(), 500);
-        }}
-      >
+      <button className={`${style.menuButton} btn btn-info`} onClick={onLogout}>
         {logoutText}
       </button>
     </div>

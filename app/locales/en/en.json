@@ -17,7 +17,8 @@
     "password": "Password",
     "country": "Country",
     "date_of_birth": "Date of Birth",
-    "register": "Register"
+    "register": "Register",
+    "back": "Back"
   },
   "error": {
     "username_exists": "Username already exists",
@@ -50,6 +51,16 @@
   "points": "Points",
   "age": "Age",
   "backBtn": "Back to Main Menu"
-}
+},
+  "game":{
+
+},
+  "navbar":{
+    "menu": "Menu",
+    "newGame": "New Game",
+    "yourProfile": "Your Profile",
+    "quit": "Quit",
+    "logOut": "Log Out"
+  }
 }
   
