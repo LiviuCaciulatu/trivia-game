@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import style from "./style.module.scss";
+import { useTimerContext } from "@/app/context/TimerContext";
 
 interface GameOptionsProps {
   onBack: () => void;
@@ -11,6 +13,18 @@ interface GameOptionsProps {
 const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect }) => {
   const [selectedDifficulty, setSelectedDifficulty] = useState("Select Difficulty");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { useTimer, setUseTimer } = useTimerContext();
+
+    const router = useRouter();
+    const [isExiting, setIsExiting] = useState(false);
+  
+    const handleNavigation = (path: string) => {
+      setIsExiting(true);
+  
+      setTimeout(() => {
+        router.push(path);
+      }, 500);
+    };
 
   const handleDifficultyChange = (difficulty: string) => {
     setSelectedDifficulty(difficulty);
@@ -22,7 +36,7 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
     <div className={style.container}>
       <div className={style.timer}>
         <div className={style.timerTitle}>Use Timer</div>
-        <input type="checkbox" className={`${style.checkbox} toggle toggle-lg`} defaultChecked />
+        <input type="checkbox" className={`${style.checkbox} toggle toggle-lg`} checked={useTimer} onChange={()=>setUseTimer(!useTimer)} />
       </div>
       <div className={style.difficulty}>
         <div className={`${style.difficultySelector} dropdown`}>
@@ -52,7 +66,7 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
           )}
         </div>
       </div>
-      <button className={`${style.backButton} btn btn-info`}>Start Game</button>
+      <button className={`${style.backButton} btn btn-info`} onClick={() => handleNavigation("/game")} >Start Game</button>
       <button className={`${style.backButton} btn btn-info`} onClick={onBack}>
         Back
       </button>

@@ -1,6 +1,7 @@
 "use client";
 
 import React  from "react";
+import Timer from '../components/Timer/Timer'
 // import { useState, useEffect } from "react";
 // import { useUser } from "../context/UserContext";
 // import { useLanguage } from "../context/LanguageContext";
@@ -22,6 +23,7 @@ const Game = () =>{
     return(
         <div className={`${style.container}`}>
             <Navbar />
+            <Timer />
         </div>
     )
 }

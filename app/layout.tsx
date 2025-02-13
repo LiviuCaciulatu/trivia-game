@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.scss';
 import { LanguageProvider } from './context/LanguageContext';
 import { UserProvider } from './context/UserContext';
+import { TimerProvider } from './context/TimerContext';
 
 export const metadata: Metadata = {
   title: 'Trivia',
@@ -23,7 +24,9 @@ export default function RootLayout({
       <body>
         <LanguageProvider>
           <UserProvider>
-            {children}
+            <TimerProvider>
+              {children}
+            </TimerProvider>
           </UserProvider>
         </LanguageProvider>
       </body>
