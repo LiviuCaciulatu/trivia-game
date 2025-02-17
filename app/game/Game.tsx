@@ -6,9 +6,9 @@ import Timer from '../components/Timer/Timer'
 // import { useUser } from "../context/UserContext";
 // import { useLanguage } from "../context/LanguageContext";
 import style from "./style.module.scss";
-// import enTranslations from "../locales/en/en.json";
-// import roTranslations from "../locales/ro/ro.json";
 import Navbar from "../components/Navbar/Navbar";
+import { GameProvider } from "../context/GameContext";
+import GameComponent from "../components/GameComponent/GameComponent";
 
 const Game = () =>{
 
@@ -24,6 +24,9 @@ const Game = () =>{
         <div className={`${style.container}`}>
             <Navbar />
             <Timer />
+            <GameProvider>
+                <GameComponent />
+            </GameProvider>
         </div>
     )
 }
