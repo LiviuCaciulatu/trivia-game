@@ -1,0 +1,55 @@
+@use "../../styles/globalVariables" as gv;
+
+.container {
+    background-color: gv.$Yellow;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: black;
+    height: 100%;
+}
+
+.subcontainer{
+ display: flex;
+ flex-direction: row;
+}
+
+.title{
+    font-size: gv.$font-size-large;
+    color: gv.$Red;
+}
+
+.subTitle{
+    color: gv.$Blue;
+    font-size: gv.$font-size-small;
+}
+
+.position {
+    font-size: gv.$font-size-medium;
+}
+
+.username {
+    font-size: gv.$font-size-medium;
+}
+
+.country{
+    font-size: gv.$font-size-medium;
+}
+
+.points {
+    font-size: gv.$font-size-medium;
+}
+
+.firstPlace{
+    color: gv.$GreenDark;
+}
+
+.secondPlace {
+    color: gv.$Blue;
+}
+
+.thirdPlace {
+    color: gv.$LightBlue;
+}

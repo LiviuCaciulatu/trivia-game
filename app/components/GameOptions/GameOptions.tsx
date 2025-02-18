@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useLanguage } from "../../context/LanguageContext";
+import enTranslations from "../../locales/en/en.json";
+import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
-import { useTimerContext } from "@/app/context/TimerContext";
 
 interface GameOptionsProps {
   onBack: () => void;
@@ -11,9 +13,18 @@ interface GameOptionsProps {
 }
 
 const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect }) => {
-  const [selectedDifficulty, setSelectedDifficulty] = useState("Select Difficulty");
+  const { language } = useLanguage();
+  const translations = language === "ro" ? roTranslations.gameOptions : enTranslations.gameOptions;
+
+  const difficultyOptions = [
+    { key: "easy", label: translations.easy },
+    { key: "medium", label: translations.medium },
+    { key: "hard", label: translations.hard },
+  ];
+
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
+  const [selectedDifficultyLabel, setSelectedDifficultyLabel] = useState(translations.easy);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { useTimer, setUseTimer } = useTimerContext();
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
@@ -21,33 +32,34 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
 
   const handleNavigation = (path: string) => {
     setIsExiting(true);
-
     setTimeout(() => {
       router.push(path);
     }, 500);
   };
 
-  const handleDifficultyChange = (difficulty: string) => {
-    setSelectedDifficulty(difficulty);
-    onDifficultySelect(difficulty);
+  const handleDifficultyChange = (difficultyKey: string, difficultyLabel: string) => {
+    console.log("Difficulty selected:", difficultyKey);
+    setSelectedDifficulty(difficultyKey); 
+    setSelectedDifficultyLabel(difficultyLabel);
+    onDifficultySelect(difficultyKey);
     setIsDropdownOpen(false);
   };
 
   const handleStartButtonClick = () => {
-    if (selectedDifficulty === "Select Difficulty") {
-      setError("Please select a difficulty before starting the game.");
+    if (!selectedDifficulty) {
+      setError(translations.errorSelectDifficulty);
     } else {
       setError("");
-      handleNavigation("/game");
+      handleNavigation(`/game?difficulty=${selectedDifficulty}`);
     }
   };
 
-    useEffect(() => {
-      if (error) {
-        const timer = setTimeout(() => setError(null), 3000);
-        return () => clearTimeout(timer);
-      }
-    }, [error]);
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
 
   return (
     <div className={style.container}>
@@ -56,61 +68,43 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
           <span>{error}</span>
         </div>
       )}
-      
-      <div className={style.timer}>
-        <div className={style.timerTitle}>Use Timer</div>
-        <input
-          type="checkbox"
-          className={`${style.checkbox} toggle toggle-lg`}
-          checked={useTimer}
-          onChange={() => setUseTimer(!useTimer)}
-        />
-      </div>
-      
       <div className={style.difficulty}>
-        <div className={`${style.difficultySelector} dropdown`}>
+        <div className={`${style.difficultySelector} dropdown dropdown-right`}>
+          <div className={style.difficultyTitle}>{translations.selectDifficulty}: </div>
           <div
             tabIndex={0}
             role="button"
             className={`${style.dropBtn} btn m-1`}
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           >
-            {selectedDifficulty}
+            {selectedDifficultyLabel}
           </div>
           {isDropdownOpen && (
             <ul
               tabIndex={0}
               className={`${style.dropdownContent} dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow`}
             >
-              <li>
-                <a className={style.dropdownOption} onClick={() => handleDifficultyChange("Easy")}>
-                  Easy
-                </a>
-              </li>
-              <li>
-                <a className={style.dropdownOption} onClick={() => handleDifficultyChange("Medium")}>
-                  Medium
-                </a>
-              </li>
-              <li>
-                <a className={style.dropdownOption} onClick={() => handleDifficultyChange("Hard")}>
-                  Hard
-                </a>
-              </li>
+              {difficultyOptions.map((option) => (
+                <li key={option.key}>
+                  <a
+                    className={style.dropdownOption}
+                    onClick={() => handleDifficultyChange(option.key, option.label)}
+                  >
+                    {option.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           )}
         </div>
       </div>
-      
-      <button
-        className={`${style.backButton} btn btn-info`}
-        onClick={handleStartButtonClick}
-      >
-        Start Game
+
+      <button className={`${style.backButton} btn btn-info`} onClick={handleStartButtonClick}>
+        {translations.startGame}
       </button>
-      
+
       <button className={`${style.backButton} btn btn-info`} onClick={onBack}>
-        Back
+        {translations.back}
       </button>
     </div>
   );

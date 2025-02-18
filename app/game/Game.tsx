@@ -1,34 +1,44 @@
 "use client";
 
-import React  from "react";
-import Timer from '../components/Timer/Timer'
-// import { useState, useEffect } from "react";
-// import { useUser } from "../context/UserContext";
-// import { useLanguage } from "../context/LanguageContext";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import style from "./style.module.scss";
 import Navbar from "../components/Navbar/Navbar";
 import { GameProvider } from "../context/GameContext";
 import GameComponent from "../components/GameComponent/GameComponent";
+import { useUser } from "../context/UserContext";
 
-const Game = () =>{
+const Game = () => {
+  const { user, fetchUserData, updateUserData } = useUser();
+  const searchParams = useSearchParams();
 
-    // const { user, logout } = useUser();
-    // const { language } = useLanguage();
-    // const [translations, setTranslations] = useState(enTranslations.game);
+  const selectedDifficulty = searchParams.get("difficulty") || "easy";
 
-    // useEffect(() => {
-    //     setTranslations(language === "ro" ? roTranslations.menu : enTranslations.menu);
-    //   }, [language]);
+  useEffect(() => {
+    if (!user) {
+      const userId = "12345";
+      fetchUserData(userId);
+    }
+  }, [user, fetchUserData]);
 
-    return(
-        <div className={`${style.container}`}>
-            <Navbar />
-            <Timer />
-            <GameProvider>
-                <GameComponent />
-            </GameProvider>
-        </div>
-    )
-}
+  const updateUserContext = (earnedPoints: number) => {
+    if (user) {
+      updateUserData(earnedPoints);
+    }
+  };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className={style.container}>
+      <GameProvider updateUserContext={updateUserContext} difficulty={selectedDifficulty}>
+        <Navbar />
+        <GameComponent />
+      </GameProvider>
+    </div>
+  );
+};
 
 export default Game;

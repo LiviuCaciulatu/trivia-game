@@ -1,7 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'pg';
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
+
+interface Country {
+  id: number;
+  countryCode: string;
+  countryEn: string;
+  countryRo: string;
+  capitalEn: string;
+  capitalRo: string;
+  flag: string;
+  map: string;
+  funFactEn: string | null;
+  funFactRo: string | null;
+  neighbours: string[];
+}
+
+export async function GET(): Promise<NextResponse> {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
   });
@@ -40,7 +55,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'No countries found' }, { status: 404 });
     }
 
-    const countriesMap: Record<string, any> = {};
+    const countriesMap: Record<string, Country> = {};
 
     result.rows.forEach(row => {
       const { country_code, country_en, country_ro, capital_en, capital_ro, flag, map, fun_fact_en, fun_fact_ro, neighbour_name } = row;
@@ -60,6 +75,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
           neighbours: []
         };
       }
+
       if (neighbour_name && !countriesMap[country_code].neighbours.includes(neighbour_name)) {
         countriesMap[country_code].neighbours.push(neighbour_name);
       }

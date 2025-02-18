@@ -9,6 +9,7 @@ html,body {
   background-position: bottom center;
   background-size: contain;
   animation: riseUp 1.5s ease-out forwards;
+  user-select: none;
 }
 
 @keyframes riseUp {

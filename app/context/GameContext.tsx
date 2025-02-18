@@ -1,80 +1,193 @@
+"use client"
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useLanguage } from "../context/LanguageContext";
+import enTranslations from "../locales/en/en.json";
+import roTranslations from "../locales/ro/ro.json";
 
 interface GameContextProps {
   questions: any[];
   currentQuestionIndex: number;
   gameOver: boolean;
-  nextQuestion: () => void;
+  correctAnswers: number;
+  wrongAnswers: number;
+  userPoints: number;
+  nextQuestion: (selectedAnswer: string) => void;
+  setGameOver: (value: boolean) => void;
+  resetGame: () => void;
+  setUserPoints: (points: number) => void;
+  difficulty: string;
+  loading: boolean;
 }
 
 const GameContext = createContext<GameContextProps | undefined>(undefined);
 
 interface GameProviderProps {
   children: ReactNode;
+  updateUserContext: (newPoints: number) => void;
+  difficulty: string;
 }
 
-export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const [countriesData, setCountriesData] = useState([]);
+export const GameProvider: React.FC<GameProviderProps> = ({ children, updateUserContext, difficulty }) => {
+  const { language } = useLanguage();
+  const translations = language === "ro" ? roTranslations.game : enTranslations.game;
+
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [gameOver, setGameOver] = useState(false);
+  const [gameOver, setGameOverState] = useState(false);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [userPoints, setUserPoints] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      const res = await fetch("/api/countries");
-      const data = await res.json();
-      setCountriesData(data);
-      generateQuestions(data);
-    };
+    if (!questions.length) {
+      console.log("Fetching questions...");
+      fetchQuestions();
+    }
+  }, [difficulty]);
+  
+  
 
-    fetchCountries();
-  }, []);
+  const fetchQuestions = async () => {
+    if (questions.length > 0) return;
+    console.log("Fetching questions...");
+    const res = await fetch("/api/countries");
+    const data = await res.json();
+    generateQuestions(data);
+  };
+  
 
   const generateQuestions = (countries: any[]) => {
+    console.log("Generated Questions:", countries);
     const generated: any[] = [];
-    for (let i = 0; i < 20; i++) {
-      const type = Math.floor(Math.random() * 3);
+    const questionCount = difficulty === "hard" ? 30 : difficulty === "medium" ? 25 : 20;
+  
+    let allowedTypes: number[];
+    if (difficulty === "hard") {
+      allowedTypes = [0, 1, 2, 3, 4, 5, 6];
+    } else if (difficulty === "medium") {
+      allowedTypes = [0, 1, 2, 3, 4];
+    } else {
+      allowedTypes = [0, 1, 2];
+    }
+  
+    while (generated.length < questionCount) {
+      const type = allowedTypes[Math.floor(Math.random() * allowedTypes.length)];
       const question = generateQuestion(countries, type);
       generated.push(question);
     }
+  
     setQuestions(generated);
+    setLoading(false);
   };
+  
 
   const generateQuestion = (countries: any[], type: number) => {
     const country = countries[Math.floor(Math.random() * countries.length)];
-    const capital = country.capitalEn;
-    const countryName = country.countryEn;
+
+    const capital = language === "ro" ? country.capitalRo : country.capitalEn;
+    const countryName = language === "ro" ? country.countryRo : country.countryEn;
+    const funFact = language === "ro" ? country.funFactRo : country.funFactEn;
 
     if (type === 0) {
-      const options = getRandomOptions(countries, "capitalEn", capital);
+      const options = getRandomOptions(countries, language === "ro" ? "capitalRo" : "capitalEn", capital);
       return {
-        question: `What is the capital of ${countryName}?`,
+        question: translations.capitalQuestion.replace("{country}", countryName),
         options,
         correctAnswer: capital,
         type: "multiple-choice",
       };
     } else if (type === 1) {
-      const options = getRandomOptions(countries, "countryEn", countryName);
+      const options = getRandomOptions(countries, language === "ro" ? "countryRo" : "countryEn", countryName);
       return {
-        question: `${capital} is the capital of which country?`,
+        question: translations.countryQuestion.replace("{capital}", capital),
         options,
         correctAnswer: countryName,
         type: "multiple-choice",
       };
-    } else {
+    } else if (type === 2) {
       const isCorrect = Math.random() > 0.5;
       let fakeCountry = country;
+    
       while (fakeCountry.countryEn === countryName) {
         fakeCountry = countries[Math.floor(Math.random() * countries.length)];
       }
+    
       const displayedCountry = isCorrect ? country : fakeCountry;
+      const displayedCountryName = language === "ro" ? displayedCountry.countryRo : displayedCountry.countryEn;
+    
       return {
-        question: `Is ${capital} the capital of ${displayedCountry.countryEn}?`,
-        options: ["True", "False"],
-        correctAnswer: isCorrect ? "True" : "False",
+        question: translations.trueFalseQuestion
+          .replace("{capital}", capital)
+          .replace("{country}", displayedCountryName),
+        options: [translations.trueOption, translations.falseOption],
+        correctAnswer: isCorrect ? translations.trueOption : translations.falseOption,
         type: "true-false",
       };
+    } else if (type === 3) {
+      const options = getRandomOptions(countries, language === "ro" ? "countryRo" : "countryEn", countryName);
+      return {
+        question: translations.flagQuestion,
+        options,
+        correctAnswers: countryName,
+        type: "flag",
+        image: country.flag,
+      }
+    } else if (type === 4){
+      const options = getRandomOptions(countries, language === "ro" ? "countryRo" : "countryEn", countryName);
+      return {
+        question: translations.mapQuestion,
+        options,
+        correctAnswers: countryName,
+        type: "map",
+        image: country.map
+      }
+    } else if (type === 5){
+      const options = getRandomOptions(countries, language === "ro" ? "countryRo" : "countryEn", countryName);
+      return {
+        question: funFact,
+        options,
+        correctAnswers: countryName,
+        type: "fun-fact"
+      }
+    } else if (type === 6) {
+      const options = getRandomOptions(countries, language === "ro" ? "countryRo" : "countryEn", countryName);
+    
+      if (!country.neighbours || country.neighbours.length === 0) {
+        return null;
+      }
+    
+      let formattedNeighbours = "";
+      
+      if (Array.isArray(country.neighbours)) {
+        if (country.neighbours.length === 1) {
+          formattedNeighbours = country.neighbours[0];
+        } else {
+          formattedNeighbours = country.neighbours.slice(0, -1).join(", ") + " and " + country.neighbours[country.neighbours.length - 1];
+        }
+      } else if (typeof country.neighbours === "string") {
+        const neighboursArray = country.neighbours.split(",");
+        if (neighboursArray.length === 1) {
+          formattedNeighbours = neighboursArray[0];
+        } else {
+          formattedNeighbours = neighboursArray.slice(0, -1).join(", ") + " and " + neighboursArray[neighboursArray.length - 1];
+        }
+      } else {
+        formattedNeighbours = "Unknown neighbours";
+      }
+  
+      return {
+        question: translations.neighbourQuestion.replace("{country}", language === "ro" ? country.countryRo : country.countryEn).replace("{neighbours}", formattedNeighbours),
+        options: options,
+        correctAnswer: countryName,
+        type: "multiple-choice",
+      };
     }
+  
+  
+
+    return {};
   };
 
   const getRandomOptions = (countries: any[], key: string, correctValue: string) => {
@@ -88,16 +201,57 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
     return [...options, correctValue].sort(() => Math.random() - 0.5);
   };
 
-  const nextQuestion = () => {
-    if (currentQuestionIndex + 1 === 20) {
-      setGameOver(true);
+  const nextQuestion = (selectedAnswer: string) => {
+    if (questions.length > 0) {
+      const correctAnswer = questions[currentQuestionIndex]?.correctAnswer;
+  
+      if (selectedAnswer === correctAnswer) {
+        setCorrectAnswers((prev) => prev + 1);
+      } else {
+        setWrongAnswers((prev) => prev + 1);
+      }
+    }
+  
+    const totalQuestions = difficulty === "medium" ? 25 : 20;
+    
+    if (currentQuestionIndex + 1 === totalQuestions) {
+      setTimeout(() => {
+        setGameOverState(true);
+        const newTotalPoints = userPoints + correctAnswers;
+        setUserPoints(newTotalPoints);
+        updateUserContext(newTotalPoints);
+      }, 500);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
     }
   };
+  
+
+  const resetGame = () => {
+    setCurrentQuestionIndex(0);
+    setGameOverState(false);
+    setCorrectAnswers(0);
+    setWrongAnswers(0);
+    fetchQuestions();
+  };
 
   return (
-    <GameContext.Provider value={{ questions, currentQuestionIndex, gameOver, nextQuestion }}>
+    <GameContext.Provider
+      value={{
+        questions,
+        currentQuestionIndex,
+        gameOver,
+        correctAnswers,
+        wrongAnswers,
+        userPoints,
+        nextQuestion,
+        setGameOver: setGameOverState,
+        resetGame,
+        setUserPoints,
+        difficulty,
+        loading,
+      }}
+    >
       {children}
     </GameContext.Provider>
   );
