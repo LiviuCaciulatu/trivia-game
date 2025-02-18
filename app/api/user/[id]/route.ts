@@ -114,7 +114,3 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
     await client.end();
   }
 }
-
-
-
-
