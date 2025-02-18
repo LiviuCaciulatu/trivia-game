@@ -7,15 +7,44 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-
+    font-family: gv.$BubbleGumRegular;
 }
+
+.btn {
+    background-color: gv.$Blue;
+    border: none;
+    font-size: gv.$font-size-medium;
+
+    &:hover{
+        background-color: gv.$Red;
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.title{
+    padding-top: 2rem;
+    padding-left: 3rem;
+    font-size: 3rem;
+    color: gv.$Red;
+    margin-bottom: 2rem;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    justify-content: center; // Centers the text horizontally
+    align-items: center; // Centers vertically if needed
+}
+
 .drawer{
     width: 1024px;
 }
 
 .drawerContent{
+    height: 5rem;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 }
 
 .menu{

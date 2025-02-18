@@ -233,13 +233,13 @@
 <path clip-rule="nonzero" d="M 2077.109375 0 L 2126.128906 0 L 2126.128906 2400 L 2077.109375 2400 Z M 2077.109375 0 "/>
 </clipPath>
 <linearGradient id="linear-pattern-19" gradientUnits="userSpaceOnUse" x1="0.0740725" y1="0" x2="0.895127" y2="0" gradientTransform="matrix(39.9373, 2923.34, -2923.34, 39.9373, 2083.01, -216.66)">
-<stop offset="0" stop-color="rgb(98.429871%, 98.429871%, 98.429871%)" stop-opacity="1"/>
-<stop offset="0.5" stop-color="rgb(98.429871%, 98.429871%, 98.429871%)" stop-opacity="1"/>
-<stop offset="0.5625" stop-color="rgb(98.429871%, 98.429871%, 98.429871%)" stop-opacity="1"/>
-<stop offset="0.59375" stop-color="rgb(98.376465%, 98.376465%, 98.376465%)" stop-opacity="1"/>
-<stop offset="0.625" stop-color="rgb(98.179626%, 98.179626%, 98.179626%)" stop-opacity="1"/>
-<stop offset="0.75" stop-color="rgb(98.03772%, 98.03772%, 98.03772%)" stop-opacity="1"/>
-<stop offset="1" stop-color="rgb(98.03772%, 98.03772%, 98.03772%)" stop-opacity="1"/>
+<stop offset="0" stop-color="rgb(98.429871%, 98.429871%, 98.429871%)" stop-opacity="0"/>
+<stop offset="0.5" stop-color="rgb(98.429871%, 98.429871%, 98.429871%)" stop-opacity="0"/>
+<stop offset="0.5625" stop-color="rgb(98.429871%, 98.429871%, 98.429871%)" stop-opacity="0"/>
+<stop offset="0.59375" stop-color="rgb(98.376465%, 98.376465%, 98.376465%)" stop-opacity="0"/>
+<stop offset="0.625" stop-color="rgb(98.179626%, 98.179626%, 98.179626%)" stop-opacity="0"/>
+<stop offset="0.75" stop-color="rgb(98.03772%, 98.03772%, 98.03772%)" stop-opacity="0"/>
+<stop offset="1" stop-color="rgb(98.03772%, 98.03772%, 98.03772%)" stop-opacity="0"/>
 </linearGradient>
 <clipPath id="clip-20">
 <path clip-rule="nonzero" d="M 2183.179688 0 L 2232.199219 0 L 2232.199219 2400 L 2183.179688 2400 Z M 2183.179688 0 "/>

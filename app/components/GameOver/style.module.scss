@@ -1,0 +1,64 @@
+@use "../../styles/globalVariables" as gv;
+
+.gameOver{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+}
+
+.resultsContainer{
+    display: flex;
+    flex-direction: row;
+}
+
+.gameOverTitle{
+    color: gv.$Red;
+    font-size: gv.$font-size-xxl;
+    font-family: gv.$BubbleGumRegular;
+}
+
+.points {
+    color: black;
+    font-size: gv.$font-size-large;
+    font-family: gv.$BubbleGumRegular;
+}
+
+.pointsNumber{
+    color: gv.$GreenDark;
+}
+
+
+.wrongTitle, .rightTitle{
+    font-size: gv.$font-size-x-large;
+    font-family: gv.$BubbleGumRegular;
+}
+
+
+.rightTitle{
+    color: gv.$GreenDark;
+}
+
+.wrongTitle{
+    color: gv.$Red;
+}
+
+.resultItem{
+    margin: 2rem;
+}
+
+.btn{
+    color: black;
+    background-color: gv.$Yellow;
+    font-size: gv.$font-size-medium;
+    font-family: gv.$BubbleGumRegular;
+    border: none;
+    margin: 1rem;
+  
+    &:hover{
+      background-color: gv.$Red;
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}

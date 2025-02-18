@@ -2,24 +2,23 @@
   "select_language": {
     "title": "Selectați Limba",
     "language_en": "Engleză",
-    "language_ro": "Română"
+    "language_ro": "Romana"
   },
   "authentication": {
     "title": "Autentificare",
     "login": "Conectare",
-    "signup": "Înregistrare"
+    "signup": "Inregistrare"
   },
   "register_form": {
-    "title": "Înregistrează-te",
+    "title": "Inregistreaza-te",
     "first_name": "Prenume",
     "last_name": "Nume",
     "username": "Nume de utilizator",
     "password": "Parolă",
-    "country": "Țară",
+    "country": "Tară",
     "date_of_birth": "Data nasterii",
-    "register": "Înregistrează-te",
-    "back": "Înapoi"
-
+    "register": "Inregistreaza-te",
+    "back": "Inapoi"
   },
   "error": {
     "username_exists": "Numele de utilizator exista deja",
@@ -33,34 +32,69 @@
   },
   "menu": {
     "title": "Meniu Principal",
-    "startGame": "Începe Jocul",
-    "viewProfile": "Vizualizează Profilul",
+    "startGame": "Incepe Jocul",
+    "viewProfile": "Vizualizeaza Profilul",
     "logout": "Deconectare"
   },
   "header": {
-  "welcome_message": "Bine ai venit la Trivia!",
-  "title": "Să începem"
-},
-"profile": {
-  "profileTitle": "Aceasta este puterea cunoștințelor tale",
-  "welcome": "Bine ai venit",
-  "email": "Email",
-  "country": "Țara",
-  "first_name": "Prenume",
-  "last_name": "Nume",
-  "username": "Nume de utilizator",
-  "points": "Puncte",
-  "age": "Varsta",
-  "backBtn": "Inapoi la Meniul Principal"
-},
-"game": {
-  
-},
-"navbar":{
-  "menu": "Meniu",
-  "newGame": "Joc Nou",
-  "yourProfile": "Profilul Tau",
-  "quit": "Iesi din Joc",
-  "logOut": "Deconectare"
-}
+    "welcome_message": "Bine ai venit la Trivia!",
+    "title": "Sa incepem"
+  },
+  "profile": {
+    "profileTitle": "Puterea cunostintelor tale",
+    "welcome": "Bine ai venit",
+    "email": "Email",
+    "country": "Tara",
+    "first_name": "Prenume",
+    "last_name": "Nume",
+    "username": "Nume de utilizator",
+    "points": "Puncte",
+    "age": "Varsta",
+    "backBtn": "Inapoi la Meniul Principal",
+    "position": "Pozitie"
+  },
+  "game": {
+    "capitalQuestion": "Care este capitala tarii {country}?",
+    "countryQuestion": "{capital} este capitala carei tari?",
+    "trueFalseQuestion": "Este {capital} capitala tarii {country}?",
+    "trueOption": "Adevarat",
+    "falseOption": "Fals",
+    "flagQuestion": "Steagul carei tari este acesta?",
+    "mapQuestion": "Harta carei tari este aceasta?",
+    "neighbourQuestion": "Ce tara are urmatorii vecini: {neighbours}?"
+  },
+  "navbar": {
+    "menu": "Meniu",
+    "newGame": "Joc Nou",
+    "yourProfile": "Profilul Tau",
+    "quit": "Iesi din Joc",
+    "logOut": "Deconectare"
+  },
+  "topPlayers": {
+    "title": "Top 10 Jucatori",
+    "loading": "Se incarca...",
+    "error": "Eroare",
+    "position": "Pozitie",
+    "name": "Nume",
+    "country": "Tara",
+    "points": "Puncte"
+  },
+  "gameOptions": {
+    "selectDifficulty": "Selecteaza dificultatea",
+    "easy": "Usor",
+    "medium": "Mediu",
+    "hard": "Greu",
+    "startGame": "Incepe Jocul",
+    "back": "Inapoi",
+    "errorSelectDifficulty": "Va rugam să selectati o dificultate inainte de a incepe jocul."
+  },
+  "gameOver": {
+    "gameOverTitle": "Sfarsit!",
+    "yourGot": "Ai obtinut",
+    "points": "puncte",
+    "correct": "Corecte",
+    "wrong": "Gresite",
+    "retryGame": "Reincepe Jocul",
+    "goToMenu": "Mergi la Meniu"
+  }
 }

@@ -1,0 +1,45 @@
+@use "../../styles/globalVariables" as gv;
+
+.gameContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    text-align: center;
+}
+
+.props {
+    display: flex;
+    flex-direction: row;
+    margin: 2rem;
+}
+
+.question{
+    color: black;
+    font-size: gv.$font-size-large;
+    font-family: gv.$BubbleGumRegular;
+    align-self: center;
+}
+
+.answerBtn {
+    margin-top: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    background-color: gv.$Yellow;
+    font-size: gv.$font-size-medium;
+    font-family: gv.$BubbleGumRegular;
+    &:hover{
+        background-color: gv.$Red;
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.questionImage{
+    height: 10rem;
+    width: auto;
+    border-radius: 10%;
+    object-fit: cover;
+    fill: gv.$Blue;
+}

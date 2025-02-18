@@ -37,30 +37,64 @@
     "logout": "Logout"
   },
   "header": {
-  "welcome_message": "Welcome to Trivia!",
-  "title": "Let's Get Started"
-},
-"profile": {
-  "profileTitle": "Here are your Brain Power Stats:",
-  "welcome": "Welcome",
-  "email": "Email",
-  "country": "Country",
-  "first_name": "First Name",
-  "last_name": "Last Name",
-  "username": "Username",
-  "points": "Points",
-  "age": "Age",
-  "backBtn": "Back to Main Menu"
-},
-  "game":{
-
-},
-  "navbar":{
+    "welcome_message": "Welcome to Trivia!",
+    "title": "Let's Get Started"
+  },
+  "profile": {
+    "profileTitle": "Here are your Brain Power Stats:",
+    "welcome": "Welcome",
+    "email": "Email",
+    "country": "Country",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "username": "Username",
+    "points": "Points",
+    "age": "Age",
+    "backBtn": "Back to Main Menu",
+    "position": "Position"
+  },
+  "game": {
+    "capitalQuestion": "What is the capital of {country}?",
+    "countryQuestion": "{capital} is the capital of which country?",
+    "trueFalseQuestion": "Is {capital} the capital of {country}?",
+    "trueOption": "True",
+    "falseOption": "False",
+    "flagQuestion": "What country's flag is this?",
+    "mapQuestion": "What country is this map of?",
+    "neighbourQuestion": "Which country has the following neighbours: {neighbours}?"
+  },
+  "navbar": {
     "menu": "Menu",
     "newGame": "New Game",
     "yourProfile": "Your Profile",
     "quit": "Quit",
     "logOut": "Log Out"
+  },
+  "topPlayers": {
+    "title": "Top 10 Players",
+    "loading": "Loading...",
+    "error": "Error",
+    "position": "Position",
+    "name": "Name",
+    "country": "Country",
+    "points": "Points"
+  },
+  "gameOptions": {
+    "selectDifficulty": "Select Difficulty",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "startGame": "Start Game",
+    "back": "Back",
+    "errorSelectDifficulty": "Please select a difficulty before starting the game."
+  },
+  "gameOver": {
+    "gameOverTitle": "Game Over!",
+    "yourGot": "Your Got",
+    "points": "points",
+    "correct": "Correct",
+    "wrong": "Wrong",
+    "retryGame": "Retry Game",
+    "goToMenu": "Go to Menu"
   }
 }
-  
