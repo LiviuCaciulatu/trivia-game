@@ -28,10 +28,8 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
-  const [isExiting, setIsExiting] = useState(false);
 
   const handleNavigation = (path: string) => {
-    setIsExiting(true);
     setTimeout(() => {
       router.push(path);
     }, 500);
