@@ -1,4 +1,5 @@
 import { Client } from 'pg';
+import bcrypt from 'bcryptjs'; // Import bcryptjs
 
 interface CreateUserRequest {
   first_name: string;
@@ -18,6 +19,9 @@ export async function POST(req: Request): Promise<Response> {
   try {
     const { first_name, last_name, username, password, country, points, date_of_birth }: CreateUserRequest = await req.json();
 
+    // Hash the password before inserting it into the database
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash with salt rounds
+
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
     });
@@ -25,11 +29,11 @@ export async function POST(req: Request): Promise<Response> {
     await client.connect();
 
     const query = `
-      INSERT INTO trivia.users (first_name, last_name, username, password, country, points, date_of_birth)
-      VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
-    `;
-
-    const values = [first_name, last_name, username, password, country, points, date_of_birth];
+    INSERT INTO users (first_name, last_name, username, password, country, points, date_of_birth)
+    VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
+  `;
+  
+    const values = [first_name, last_name, username, hashedPassword, country, points, date_of_birth];
 
     const result = await client.query(query, values);
 
@@ -55,4 +59,3 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 }
-

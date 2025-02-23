@@ -16,7 +16,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const query = `
       SELECT id, username, first_name, last_name, country, points, date_of_birth
-      FROM trivia.users
+      FROM users
       WHERE id = $1
     `;
     const result = await client.query(query, [userId]);
@@ -77,7 +77,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ error: 'Points value must be a number' }, { status: 400 });
     }
 
-    const fetchQuery = `SELECT id, username, first_name, last_name, country, points, date_of_birth FROM trivia.users WHERE id = $1`;
+    const fetchQuery = `SELECT id, username, first_name, last_name, country, points, date_of_birth FROM users WHERE id = $1`;
     const fetchResult = await client.query(fetchQuery, [userId]);
 
     if (fetchResult.rows.length === 0) {
@@ -92,7 +92,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
       birthDate.getFullYear() -
       (currentDate < new Date(currentDate.getFullYear(), birthDate.getMonth(), birthDate.getDate()) ? 1 : 0);
 
-    const updateQuery = `UPDATE trivia.users SET points = $1 WHERE id = $2 RETURNING *`;
+    const updateQuery = `UPDATE users SET points = $1 WHERE id = $2 RETURNING *`;
     const updateResult = await client.query(updateQuery, [body.points, userId]);
 
     console.log(`User ${userId} points updated to:`, updateResult.rows[0].points);

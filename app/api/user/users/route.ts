@@ -15,7 +15,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const query = `
       SELECT id, username, points, country
-      FROM trivia.users
+      FROM users
       ORDER BY points DESC
       LIMIT 10
     `;

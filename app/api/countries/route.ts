@@ -39,13 +39,13 @@ export async function GET(): Promise<NextResponse> {
         n.neighbour_code,
         n_country.country_en AS neighbour_name
       FROM
-        trivia.countries c
+        countries c
       LEFT JOIN
-        trivia.fun_facts f ON c.country_code = f.country_code
+        fun_facts f ON c.country_code = f.country_code
       LEFT JOIN
-        trivia.neighbours n ON c.country_code = n.country_code
+        neighbours n ON c.country_code = n.country_code
       LEFT JOIN
-        trivia.countries n_country ON n.neighbour_code = n_country.country_code
+        countries n_country ON n.neighbour_code = n_country.country_code
       ORDER BY
         c.country_code;
     `;
