@@ -19,6 +19,13 @@
   .container.exit {
     animation: fallDown 0.5s ease-out forwards;
   }
+
+  .loading {
+    font-size: 1.5rem;
+    color: gv.$Blue;
+    font-weight: bold;
+    text-align: center;
+  }
   
   @keyframes riseUp {
     from {
@@ -35,5 +42,37 @@
     }
     to {
       background-position: 0% 180%;
+    }
+  }
+
+
+  @media (max-width: 1024px) {
+    .container {
+      background-size: cover;
+      padding: 2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      background-size: 120%;
+      background-position: center bottom;
+      padding: 1.5rem;
+    }
+    
+    .loading {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .container {
+      width: 100vh;
+      height: 120vh;
+      padding: 1rem;
+    }
+  
+    .loading {
+      font-size: 1rem;
     }
   }
