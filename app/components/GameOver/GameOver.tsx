@@ -24,7 +24,6 @@ const GameOver: React.FC = () => {
   const { language } = useLanguage();
   
   const [translations, setTranslations] = useState<GameOverTranslations | null>(null);
-
   
   useEffect(() => {
     const loadTranslations = async () => {
@@ -73,6 +72,7 @@ const GameOver: React.FC = () => {
             {wrongPercentage.toFixed(0)}%
           </div>
           <p className={`${style.wrongTitle} mt-2 font-semibold`}>{translations?.wrong}</p>
+
         </div>
       </div>
 

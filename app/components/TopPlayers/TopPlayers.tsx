@@ -4,6 +4,7 @@ import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
 
+
 interface Player {
   id: number;
   username: string;
