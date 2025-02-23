@@ -4,10 +4,18 @@ import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
 import style from "./style.module.scss";
 
+interface Player {
+  id: number;
+  username: string;
+  country: string;
+  points: number;
+}
+
+
 const TopPlayers = () => {
   const { language } = useLanguage();
   const translations = language === "ro" ? roTranslations.topPlayers : enTranslations.topPlayers;
-  const [players, setPlayers] = useState<any[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,7 +68,7 @@ const TopPlayers = () => {
             </tr>
           </thead>
           <tbody>
-            {players.map((player: any, index: number) => {
+            {players.map((player: Player, index: number) => {
               let positionClass = '';
               if (index === 0) positionClass = style.firstPlace;
               if (index === 1) positionClass = style.secondPlace;
