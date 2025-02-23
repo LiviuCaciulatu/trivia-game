@@ -7,17 +7,88 @@
   justify-content: center;
   align-items: center;
   user-select: none;
+  padding: 1rem;
 }
 
-.main{
+.main {
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
 
+@media (max-width: 1024px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subContainer,
+  .user {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  .userName {
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  .userData {
+    min-width: 10rem;
+    height: 6rem;
+    font-size: gv.$font-size-small;
+  }
+
+  .backButton {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-size: gv.$font-size-small;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .userName {
+    font-size: 2rem;
+  }
+
+  .userData {
+    min-width: 4rem;
+    height: 4rem;
+    margin: 0.5rem;
+    font-size: gv.$font-size-small;
+  }
+
+  .backButton {
+    font-size: gv.$font-size-small;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
 .title {
+  width: 100%;
   color: gv.$Yellow;
   font-size: 5rem;
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 .userName {
@@ -26,17 +97,17 @@
   margin-bottom: 2rem;
 }
 
-.rightcontainer{
+.rightcontainer {
   height: 100%;
 }
 
-.subContainer{
+.subContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.user{
+.user {
   width: 100%;
   background-color: transparent;
   display: flex;
@@ -53,32 +124,37 @@
   margin: 1rem;
   border-radius: 1rem;
   transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.userData:hover{
+.userData:hover {
   background-color: gv.$Green;
   transform: scale(1.1);
   cursor: pointer;
 }
 
 .statTitle {
-  color: gv.$Blue
+  color: gv.$Blue;
 }
 
 .statValue {
-  color: gv.$Red
+  color: gv.$Red;
 }
 
-.backButton{
+.backButton {
   margin-top: 2rem;
   padding-left: 4rem;
   padding-right: 4rem;
   background-color: gv.$Yellow;
   font-size: gv.$font-size-medium;
   box-shadow: none;
+  text-align: center;
 }
 
-.backButton:hover{
+.backButton:hover {
   background-color: gv.$Red;
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

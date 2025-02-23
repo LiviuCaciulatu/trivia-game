@@ -238,7 +238,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children, updateUser
       }
     }
 
-    const totalQuestions = difficulty === "medium" ? 25 : 20;
+    const totalQuestions =
+  difficulty === "hard" ? 30 :
+  difficulty === "medium" ? 25 :
+  20;
 
     if (currentQuestionIndex + 1 === totalQuestions) {
       setTimeout(() => {

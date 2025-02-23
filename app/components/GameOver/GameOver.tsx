@@ -18,7 +18,7 @@ interface GameOverTranslations {
 
 
 const GameOver: React.FC = () => {
-  const { correctAnswers, resetGame } = useGame(); 
+  const { correctAnswers, resetGame, difficulty } = useGame(); 
   const router = useRouter();
 
   const { language } = useLanguage();
@@ -37,7 +37,10 @@ const GameOver: React.FC = () => {
     loadTranslations();
   }, [language]);
 
-  const totalQuestions = 20;
+  const totalQuestions = difficulty === "hard" ? 30 :
+                         difficulty === "medium" ? 25 :
+                         20;
+
   const correctPercentage = Math.round((correctAnswers / totalQuestions) * 100);
   const wrongPercentage = 100 - correctPercentage;
 
