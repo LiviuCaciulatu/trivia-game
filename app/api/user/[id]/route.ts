@@ -9,7 +9,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid or missing User ID' }, { status: 400 });
   }
 
-  const client = new Client({ connectionString: process.env.DATABASE_URL });
+  const client = new Client({ connectionString: process.env.SUPABASE_DB_URL });
 
   try {
     await client.connect();
@@ -61,7 +61,7 @@ export async function PATCH(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Invalid or missing User ID' }, { status: 400 });
   }
 
-  const client = new Client({ connectionString: process.env.DATABASE_URL });
+  const client = new Client({ connectionString: process.env.SUPABASE_DB_URL });
 
   try {
     await client.connect();

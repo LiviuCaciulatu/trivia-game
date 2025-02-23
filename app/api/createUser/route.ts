@@ -23,7 +23,7 @@ export async function POST(req: Request): Promise<Response> {
     const hashedPassword = await bcrypt.hash(password, 10); // Hash with salt rounds
 
     const client = new Client({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: process.env.SUPABASE_DB_URL,
     });
 
     await client.connect();

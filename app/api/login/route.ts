@@ -13,7 +13,7 @@ export async function POST(req: Request): Promise<Response> {
 
 
   const client = new Client({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.SUPABASE_DB_URL,
   });
 
   try {

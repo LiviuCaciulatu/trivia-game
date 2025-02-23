@@ -18,7 +18,7 @@ interface Country {
 
 export async function GET(): Promise<NextResponse> {
   const client = new Client({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: process.env.SUPABASE_DB_URL,
   });
 
   try {

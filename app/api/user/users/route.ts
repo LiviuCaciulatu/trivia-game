@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'pg';
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
-  const client = new Client({ connectionString: process.env.DATABASE_URL });
+  const client = new Client({ connectionString: process.env.SUPABASE_DB_URL });
 
   const userId = req.headers.get('user-id');
 
