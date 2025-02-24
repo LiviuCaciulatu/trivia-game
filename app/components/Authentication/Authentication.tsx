@@ -43,7 +43,6 @@ const Authentication: React.FC<AuthenticationProps> = ({ onSignUpClick, onLoginC
             />
             <h1 className={`${style.logoName}`}>Trivia</h1>
           </div>
-          <h2 className={style.title}>{translations.title}</h2>
           <button
             className={`${style.btnLogIn} btn btn-info`}
             onClick={() => handleNavigation(onLoginClick)}

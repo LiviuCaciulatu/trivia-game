@@ -28,7 +28,8 @@
     "username": "Nume de utilizator",
     "password": "Parolă",
     "login": "Conectare",
-    "title": "Autentificare"
+    "title": "Autentificare",
+    "back": "Inapoi"
   },
   "menu": {
     "title": "Meniu Principal",
@@ -74,7 +75,7 @@
     "title": "Top 10 Jucatori",
     "loading": "Se incarca...",
     "error": "Eroare",
-    "position": "Pozitie",
+    "position": "#",
     "name": "Nume",
     "country": "Tara",
     "points": "Puncte"
@@ -86,7 +87,8 @@
     "hard": "Greu",
     "startGame": "Incepe Jocul",
     "back": "Inapoi",
-    "errorSelectDifficulty": "Va rugam să selectati o dificultate inainte de a incepe jocul."
+    "errorSelectDifficulty": "Va rugam să selectati o dificultate inainte de a incepe jocul.",
+    "title": "Optiuni Joc"
   },
   "gameOver": {
     "gameOverTitle": "Sfarsit!",

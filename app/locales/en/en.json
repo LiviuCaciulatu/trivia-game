@@ -28,7 +28,8 @@
     "username": "Username",
     "password": "Password",
     "login": "Login",
-    "title": "Authentication"
+    "title": "Authentication",
+    "back": "Back"
   },
   "menu": {
     "title": "Main Menu",
@@ -74,7 +75,7 @@
     "title": "Top 10 Players",
     "loading": "Loading...",
     "error": "Error",
-    "position": "Position",
+    "position": "#",
     "name": "Name",
     "country": "Country",
     "points": "Points"
@@ -86,7 +87,8 @@
     "hard": "Hard",
     "startGame": "Start Game",
     "back": "Back",
-    "errorSelectDifficulty": "Please select a difficulty before starting the game."
+    "errorSelectDifficulty": "Please select a difficulty before starting the game.",
+    "title": "Game Options"
   },
   "gameOver": {
     "gameOverTitle": "Game Over!",

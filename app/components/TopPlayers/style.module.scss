@@ -1,55 +1,111 @@
 @use "../../styles/globalVariables" as gv;
 
 .container {
-    background-color: gv.$Yellow;
-    border-radius: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: black;
+  height: 100%;
+  padding: 16px;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
+}
+
+.subcontainer {
+  display: flex;
+  flex-direction: row;
+
+  @media (max-width: 768px) {
     flex-direction: column;
-    color: black;
-    height: 100%;
+    gap: 16px;
+  }
 }
 
-.subcontainer{
- display: flex;
- flex-direction: row;
+.tableWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+
+  .leftTable,
+  .rightTable {
+    overflow-x: auto;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
 }
 
-.title{
-    font-size: gv.$font-size-large;
-    color: gv.$Red;
+.title {
+  font-size: gv.$font-size-large;
+  color: gv.$Red;
+
+  @media (max-width: 768px) {
+    font-size: gv.$font-size-medium;
+  }
 }
 
-.subTitle{
-    color: gv.$Blue;
+.subTitle {
+  color: gv.$Blue;
+  font-size: gv.$font-size-medium;
+
+  @media (max-width: 768px) {
     font-size: gv.$font-size-small;
+  }
 }
 
-.position {
-    font-size: gv.$font-size-medium;
-}
-
-.username {
-    font-size: gv.$font-size-medium;
-}
-
-.country{
-    font-size: gv.$font-size-medium;
-}
-
+.position,
+.username,
+.country,
 .points {
-    font-size: gv.$font-size-medium;
+  font-size: gv.$font-size-medium;
+
+  @media (max-width: 768px) {
+    font-size: gv.$font-size-small;
+  }
 }
 
-.firstPlace{
-    color: gv.$GreenDark;
+.firstPlace {
+  color: gv.$GreenDark;
 }
 
 .secondPlace {
-    color: gv.$Blue;
+  color: gv.$Blue;
 }
 
 .thirdPlace {
-    color: gv.$LightBlue;
+  color: gv.$LightBlue;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 8px;
+  }
+
+  .tableWrapper {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .subcontainer {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .title {
+    font-size: gv.$font-size-medium;
+  }
+
+  .subTitle {
+    font-size: gv.$font-size-small;
+  }
 }

@@ -2,10 +2,60 @@
 
 .container {
   width: 100%;
-  height: 50vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/jpg/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  position: fixed;
+  overflow: hidden;
+  font-family: gv.$BubbleGumRegular;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/jpg/background.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    transition: transform 0.5s ease-out;
+  }
+  &.exit::before {
+    transform: scale(1.1);
+  }
+}
+
+.logo {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.logoImg {
+  max-width: 8rem;
+  max-height: 8rem;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  animation: bounce 2s infinite 5s;
+}
+
+.logoName {
+  font-size: 5rem;
+  color: gv.$Red;
+}
+
+.title {
+  font-size: gv.$font-size-large;
+  color: gv.$Red;
+  margin-bottom: 2rem;
 }
 
 .submitButton, .backButton {

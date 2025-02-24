@@ -7,7 +7,6 @@ import { useLanguage } from "../context/LanguageContext";
 import style from "./style.module.scss";
 import enTranslations from "../locales/en/en.json";
 import roTranslations from "../locales/ro/ro.json";
-import Header from "../components/Header/Header";
 import MenuOptions from "../components/MenuOptions/MenuOptions";
 import GameOptions from "../components/GameOptions/GameOptions";
 
@@ -57,7 +56,6 @@ const Menu = () => {
   return (
     <div className={`${style.container} ${isExiting ? style.exit : ""}`}>
       <div className={style.menu}>
-        <Header language={language || "en"} />
         {showGameOptions ? (
           <div>
             <GameOptions

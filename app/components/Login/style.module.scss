@@ -6,36 +6,33 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  font-family: gv.$BubbleGumRegular;
-  background: linear-gradient(to bottom, gv.$Blue, gv.$VeryLightBlue);
-  background-image: url("/svg/skylines/skyline-2-blue.svg");
+  background-image: url("/jpg/background.jpg");
   background-repeat: no-repeat;
-  background-position: center calc(100% + 50px);
-  background-size: contain;
-  animation: riseUp 2s ease-out forwards;
+  background-size: cover;
+  background-position: bottom center;
+  position: fixed;
+  overflow: hidden;
+  font-family: gv.$BubbleGumRegular;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/jpg/background.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    transition: transform 0.5s ease-out;
+  }
+  &.exit::before {
+    transform: scale(1.1);
+  }
 }
 
 .container.exit {
-  animation: fallDown 1s ease-out forwards;
-}
-
-@keyframes riseUp {
-  from {
-    background-position: center calc(180% + 50px);
-  }
-  to {
-    background-position: center calc(100% + 50px);
-  }
-}
-
-@keyframes fallDown {
-  from {
-    background-position: center calc(100% + 50px);
-  }
-  to {
-    background-position: center calc(180% + 50px);
-  }
+  animation: fallDown 0.5s ease-out forwards;
 }
 
 .login {
@@ -88,24 +85,31 @@
   font-size: gv.$font-size-medium;
   margin-bottom: 0.5rem;
   text-align: center;
+  border: 2px solid gv.$Blue;
+  &:focus {
+    outline: none;
+    border: 2px solid gv.$Red;
+  }
 }
 .inputField::placeholder {
   color: gv.$LightBlue;
   text-align: center;
 }
 
-.submitButton {
+.submitButton, .backButton {
+  border: none;
   margin-top: 2rem;
   padding-left: 4rem;
   padding-right: 4rem;
   background-color: gv.$Yellow;
   font-size: gv.$font-size-medium;
+  width: 100%;
 }
 
-.submitButton:hover {
-  background-color: gv.$Red;
-  transform: scale(1.1);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.submitButton:hover,.backButton:hover {
+background-color: gv.$Red;
+transform: scale(1.1);
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .alert {

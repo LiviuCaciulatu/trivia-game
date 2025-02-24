@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLanguage } from "../../context/LanguageContext";
 import enTranslations from "../../locales/en/en.json";
 import roTranslations from "../../locales/ro/ro.json";
+import Image from "next/image";
 import style from "./style.module.scss";
 
 interface GameOptionsProps {
@@ -66,6 +67,16 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
           <span>{error}</span>
         </div>
       )}
+        <div className={style.logo}>
+          <Image
+            width={70}
+            height={70}
+            src="/svg/Logo-4.svg"
+            alt="about us"
+            className={style.logoImg}
+          />
+          <h1 className={style.logoName}>Trivia</h1>
+        </div>
       <div className={style.difficulty}>
         <div className={`${style.difficultySelector} dropdown dropdown-right`}>
           <div className={style.difficultyTitle}>{translations.selectDifficulty}: </div>

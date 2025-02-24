@@ -2,109 +2,61 @@
 
 .container {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  user-select: none;
-  padding: 1rem;
+  background-image: url("/jpg/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom center;
+  position: fixed;
+  overflow: hidden;
+  font-family: gv.$BubbleGumRegular;
+  
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/jpg/background.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    transition: transform 0.5s ease-out;
+  }
+  &.exit::before {
+    transform: scale(1.1);
+  }
 }
 
 .main {
   width: 100%;
   display: flex;
   flex-direction: row;
-}
-
-@media (max-width: 1024px) {
-  .main {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .subContainer,
-  .user {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-}
-
-@media (max-width: 768px) {
-  .title {
-    font-size: 1.8rem;
-    text-align: center;
-  }
-
-  .userName {
-    font-size: 2.5rem;
-    text-align: center;
-  }
-
-  .userData {
-    min-width: 10rem;
-    height: 6rem;
-    font-size: gv.$font-size-small;
-  }
-
-  .backButton {
-    padding-left: 2rem;
-    padding-right: 2rem;
-    font-size: gv.$font-size-small;
-    margin-bottom: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .title {
-    font-size: 1.5rem;
-  }
-
-  .userName {
-    font-size: 2rem;
-  }
-
-  .userData {
-    min-width: 4rem;
-    height: 4rem;
-    margin: 0.5rem;
-    font-size: gv.$font-size-small;
-  }
-
-  .backButton {
-    font-size: gv.$font-size-small;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    margin-bottom: 2rem;
-  }
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
 }
 
 .title {
-  width: 100%;
-  color: gv.$Yellow;
-  font-size: 5rem;
-  margin-bottom: 2rem;
+  color: gv.$Blue;
+  font-size: 4rem;
   text-align: center;
 }
 
 .userName {
   color: gv.$Red;
-  font-size: 3rem;
-  margin-bottom: 2rem;
-}
-
-.rightcontainer {
-  height: 100%;
+  font-size: 4rem;
 }
 
 .subContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .user {
@@ -117,21 +69,21 @@
 
 .userData {
   width: auto;
-  min-width: 12rem;
-  height: 7rem;
+  min-width: 8rem;
+  height: 5rem;
   color: gv.$Red;
-  background-color: gv.$Yellow;
   margin: 1rem;
   border-radius: 1rem;
   transition: background-color 0.3s, transform 0.3s;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 
 .userData:hover {
-  background-color: gv.$Green;
+  background-color: gv.$LightBlue;
   transform: scale(1.1);
   cursor: pointer;
 }
@@ -152,6 +104,7 @@
   font-size: gv.$font-size-medium;
   box-shadow: none;
   text-align: center;
+  border: none;
 }
 
 .backButton:hover {
@@ -159,3 +112,71 @@
   transform: scale(1.1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+  @media (max-width: 1024px) {
+    .main {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .title {
+      font-size: 2rem;
+    }
+  
+    .subContainer,
+    .user {
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .title {
+      font-size: 1.8rem;
+      text-align: center;
+    }
+  
+    .userName {
+      font-size: 2.5rem;
+      text-align: center;
+    }
+  
+    .userData {
+      min-width: 10rem;
+      height: 6rem;
+      font-size: gv.$font-size-small;
+    }
+  
+    .backButton {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      font-size: gv.$font-size-small;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 1.5rem;
+      text-align: center;
+    }
+  
+    .userName {
+      font-size: 2rem;
+      text-align: center;
+    }
+  
+    .userData {
+      min-width: 4rem;
+      height: 4rem;
+      margin: 0.5rem;
+      font-size: gv.$font-size-small;
+    }
+  
+    .backButton {
+      font-size: gv.$font-size-small;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      margin-bottom: 2rem;
+    }
+  }

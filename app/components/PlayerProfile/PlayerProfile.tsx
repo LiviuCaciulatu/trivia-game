@@ -48,18 +48,10 @@ const Profile = () => {
             <div className={`${style.user} stats stats-vertical shadow`}>
               <div className={`${style.userData} stat`}>
                 <div className={`${style.statTitle} stat-title`}>
-                  {translations.first_name}
+                  {translations.username}
                 </div>
                 <div className={`${style.statValue} stat-value`}>
-                  {capitalizeFirstLetter(user.firstName)}
-                </div>
-              </div>
-              <div className={`${style.userData} stat`}>
-                <div className={`${style.statTitle} stat-title`}>
-                  {translations.last_name}
-                </div>
-                <div className={`${style.statValue} stat-value`}>
-                  {capitalizeFirstLetter(user.lastName)}
+                  {capitalizeFirstLetter(user.username)}
                 </div>
               </div>
               <div className={`${style.userData} stat`}>
@@ -88,15 +80,15 @@ const Profile = () => {
               </div>
             </div>
           </div>
+          <div className={style.rightcontainer}>
+            <TopPlayers />
+          </div>
           <button
             className={`${style.backButton} btn btn-info`}
             onClick={handleBackClick}
           >
             {translations.backBtn}
           </button>
-        </div>
-        <div className={style.rightcontainer}>
-          <TopPlayers />
         </div>
       </div>
     </div>
