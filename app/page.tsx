@@ -1,26 +1,23 @@
 "use client";
 
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "./context/LanguageContext";
-import SelectLanguage from "./components/SelectLanguage/SelectLanguage";
-
 
 export default function Home() {
-  const { setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const router = useRouter();
 
-  const handleLanguageSelection = (selectedLanguage: string) => {
-    setLanguage(selectedLanguage);
-    router.push("/authentication");
-  };
+  useEffect(() => {
+    if (!language) {
+      router.replace("/selectLanguage");
+    } else {
+      router.replace("/authentication");
+    }
+  }, [language, router]);
 
-  return (
-    <div>
-      <SelectLanguage onSelectLanguage={handleLanguageSelection} />
-    </div>
-  );
+  return null;
 }
-
 
 
 

@@ -29,7 +29,7 @@ export default function AuthenticationPage() {
       {showRegisterForm ? (
         <RegisterForm onBack={handleBack} />
       ) : showLoginForm ? (
-        <Login />
+        <Login onBack={handleBack}/>
       ) : (
         <Authentication
           onSignUpClick={handleSignUpClick}

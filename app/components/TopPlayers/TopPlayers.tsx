@@ -57,35 +57,61 @@ const TopPlayers = () => {
 
   return (
     <div className={style.container}>
-      <h2 className={style.title}>{translations.title}</h2>
-      <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
-          <tr>
-              <th className={style.subTitle}>{translations.position}</th>
-              <th className={style.subTitle}>{translations.name}</th>
-              <th className={style.subTitle}>{translations.country}</th>
-              <th className={style.subTitle}>{translations.points}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {players.map((player: Player, index: number) => {
-              let positionClass = '';
-              if (index === 0) positionClass = style.firstPlace;
-              if (index === 1) positionClass = style.secondPlace;
-              if (index === 2) positionClass = style.thirdPlace;
+      <div className={`"overflow-x-auto" ${style.tableWrapper}`}>
+      <div className={style.leftTable}>
+    <table className={`${style.table} table`}>
+      <thead>
+        <tr>
+          <th className={style.subTitle}>{translations.position}</th>
+          <th className={style.subTitle}>{translations.name}</th>
+          <th className={style.subTitle}>{translations.country}</th>
+          <th className={style.subTitle}>{translations.points}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {players.slice(0, 5).map((player: Player, index: number) => {
+          let positionClass = '';
+          if (index === 0) positionClass = style.firstPlace;
+          if (index === 1) positionClass = style.secondPlace;
+          if (index === 2) positionClass = style.thirdPlace;
 
-              return (
-                <tr key={player.id} className={positionClass}>
-                  <td className={style.position}>{index + 1}</td>
-                  <td className={style.username}>{player.username}</td>
-                  <td className={style.country}>{player.country}</td>
-                  <td className={style.points}>{player.points}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+          return (
+            <tr key={player.id} className={positionClass}>
+              <td className={style.position}>{index + 1}</td>
+              <td className={style.username}>{player.username}</td>
+              <td className={style.country}>{player.country}</td>
+              <td className={style.points}>{player.points}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+
+  <div className={style.rightTable}>
+    <table className={`${style.table} table`}>
+      <thead>
+        <tr>
+          <th className={style.subTitle}>{translations.position}</th>
+          <th className={style.subTitle}>{translations.name}</th>
+          <th className={style.subTitle}>{translations.country}</th>
+          <th className={style.subTitle}>{translations.points}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {players.slice(5, 10).map((player: Player, index: number) => {
+          return (
+            <tr key={player.id}>
+              <td className={style.position}>{index + 6}</td>
+              <td className={style.username}>{player.username}</td>
+              <td className={style.country}>{player.country}</td>
+              <td className={style.points}>{player.points}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
       </div>
     </div>
   );

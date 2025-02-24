@@ -9,11 +9,15 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUser } from "../../context/UserContext";
 
-const Login = () => {
+interface LoginProps {
+  onBack: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onBack }) => {
   const [formData, setFormData] = useState({ username: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [isExiting, setIsExiting] = useState(false); // Fade-out state
+  const [isExiting, setIsExiting] = useState(false);
 
   const { language } = useLanguage();
   const { fetchUserData } = useUser();
@@ -101,6 +105,13 @@ const Login = () => {
           <button type="submit" className={`${style.submitButton} btn btn-info`}>
             {translations.login}
           </button>
+          <button
+              type="button"
+              onClick={onBack}
+              className={`${style.backButton} btn btn-info`}
+            >
+              {translations.back}
+            </button>
 
           {error && (
             <div role="alert" className={`${style.alert} alert alert-error mt-4`}>
