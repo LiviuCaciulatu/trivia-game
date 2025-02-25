@@ -62,7 +62,7 @@
     "falseOption": "Fals",
     "flagQuestion": "Steagul carei tari este acesta?",
     "mapQuestion": "Harta carei tari este aceasta?",
-    "neighbourQuestion": "Ce tara are urmatorii vecini: {neighbours}?"
+    "neighbourQuestion": "Tara care are urmatorii vecini: {neighbours}"
   },
   "navbar": {
     "menu": "Meniu",

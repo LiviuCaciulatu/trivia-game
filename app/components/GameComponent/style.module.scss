@@ -100,7 +100,7 @@
     max-width: 200px;
     padding: 0.5rem;
     background-color: gv.$Yellow;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(1.2rem, 2vw, 1.2rem);
     font-family: gv.$BubbleGumRegular;
     text-align: center;
     border: none;
@@ -133,7 +133,7 @@
     max-width: 200px;
     padding: 0.5rem;
     background-color: gv.$GreenDark !important;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(1.2rem, 2vw, 1.2rem);
     font-family: gv.$BubbleGumRegular;
     text-align: center;
     border: none;
@@ -157,7 +157,7 @@
     max-width: 200px;
     padding: 0.5rem;
     background-color: gv.$Red !important;
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(1.2rem, 2vw, 1.2rem);
     font-family: gv.$BubbleGumRegular;
     text-align: center;
     border: none;
@@ -190,8 +190,7 @@
 
   .question{
     white-space: wrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
   }
 
   .imageContainer img {

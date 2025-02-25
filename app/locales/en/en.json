@@ -62,7 +62,7 @@
     "falseOption": "False",
     "flagQuestion": "What country's flag is this?",
     "mapQuestion": "What country is this map of?",
-    "neighbourQuestion": "Which country has the following neighbours: {neighbours}?"
+    "neighbourQuestion": "The country with the following neighbours: {neighbours}"
   },
   "navbar": {
     "menu": "Menu",
