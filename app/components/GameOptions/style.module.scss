@@ -78,6 +78,7 @@
 .difficultySelector{
   display: flex;
   flex-direction: row;
+  justify-content: center;
   background-color: transparent;
   font-size: gv.$font-size-medium;
   font-family: gv.$BubbleGumRegular;

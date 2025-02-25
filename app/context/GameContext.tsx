@@ -158,6 +158,11 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children, updateUser
         image: country.flag,
       };
     } else if (type === 4) {
+
+      if (!country.map) {
+        return null;
+      }
+
       const options = getRandomOptions(countries, language === "ro" ? "countryRo" : "countryEn", countryName);
       questionType = "map";
       return {
@@ -255,13 +260,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children, updateUser
     }
   };
 
-  const resetGame = () => {
-    setCurrentQuestionIndex(0);
-    setGameOverState(false);
-    setCorrectAnswers(0);
-    setWrongAnswers(0);
-    fetchQuestions();
-  };
+const resetGame = () => {
+  setQuestions([]);
+  setCurrentQuestionIndex(0);
+  setGameOverState(false);
+  setCorrectAnswers(0);
+  setWrongAnswers(0);
+  // setUserPoints(0);
+  fetchQuestions();
+};
 
   return (
     <GameContext.Provider

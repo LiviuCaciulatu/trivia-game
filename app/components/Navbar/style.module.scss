@@ -1,64 +1,96 @@
 @use "../../styles/globalVariables" as gv;
 
-.container{
-    background-color: gv.$Yellow;
-    height: 5rem;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    font-family: gv.$BubbleGumRegular;
+.container {
+  background-color: gv.$Yellow;
+  height: 5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-family: gv.$BubbleGumRegular;
+  padding: 0 1rem;
 }
 
 .btn {
-    background-color: gv.$Blue;
-    border: none;
-    font-size: gv.$font-size-medium;
+  background-color: gv.$Blue;
+  border: none;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  padding: 0.5rem 1rem;
 
-    &:hover{
-        background-color: gv.$Red;
-        transform: scale(1.1);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-}
-
-.title{
-    padding-top: 2rem;
-    padding-left: 3rem;
-    font-size: 3rem;
-    color: gv.$Red;
-    margin-bottom: 2rem;
-    text-align: center;
-    width: 100%;
-    display: flex;
-    justify-content: center; // Centers the text horizontally
-    align-items: center; // Centers vertically if needed
-}
-
-.drawer{
-    width: 1024px;
-}
-
-.drawerContent{
-    height: 5rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.menu{
-    font-family: gv.$BubbleGumRegular;
-    font-size: gv.$font-size-large;
-    color: black;
-    background-color: gv.$Yellow;
-    padding-top: 5rem;
-}
-
-.menuItem{
-    padding: 1rem;
-}
-
-.menuItem:hover{
+  &:hover {
     background-color: gv.$Red;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: gv.$Red;
+  text-align: center;
+  padding-left: 5rem;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.drawer {
+  width: 100%;
+}
+
+.drawerContent {
+  height: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.menu {
+  font-family: gv.$BubbleGumRegular;
+  font-size: gv.$font-size-large;
+  color: black;
+  background-color: gv.$Yellow;
+  padding-top: 5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.menuItem {
+  padding: 1rem;
+  text-align: center;
+}
+
+.menuItem:hover {
+  background-color: gv.$Red;
+}
+
+@media (max-width: 768px) {
+  .container {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .title {
+    padding-left: 8rem;
+    font-size: 2rem;
+  }
+
+  .drawerContent {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .menu {
+    max-width: 300px;
+    padding-top: 3rem;
+  }
+
+  .menuItem {
+    padding: 0.8rem;
+  }
 }

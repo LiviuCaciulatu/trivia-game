@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useGame } from "@/app/context/GameContext";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "@/app/context/LanguageContext";
+import Navbar from '../Navbar/Navbar';
 import style from './style.module.scss';
 
 interface GameOverTranslations {
@@ -46,6 +47,9 @@ const GameOver: React.FC = () => {
 
   return (
     <div className={`${style.gameOver} flex flex-col items-center gap-6`}>
+      <div className={style.navbar}>
+        <Navbar />
+      </div>
       <h2 className={`${style.gameOverTitle} text-2xl font-bold`}>
         {translations?.gameOverTitle}
       </h2>

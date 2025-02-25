@@ -1,45 +1,201 @@
 @use "../../styles/globalVariables" as gv;
 
-.gameContainer{
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.gameContainer {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  background-image: url("/jpg/background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  font-family: gv.$BubbleGumRegular;
+  padding: 5rem 1rem;
+  position: fixed;
+  overflow: hidden;
+  text-align: center;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("/jpg/background.jpg") no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+    transition: transform 0.5s ease-out;
+  }
+
+  &.exit::before {
+    transform: scale(1.1);
+  }
+}
+
+.questionCounter {
+  margin-top: 5rem;
+  color: black;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-family: gv.$BubbleGumRegular;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+
+  .image {
+    max-width: 20%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+.question {
+  color: black;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-family: gv.$BubbleGumRegular;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.answerOptions {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    max-width: 500px;
+    width: 100%;
+    min-height: 120px;
+    align-items: center;
+  }
+  
+  
+  .answerBtn {
+    color: black;
+    width: calc(45% - 0.5rem);
+    max-width: 200px;
+    padding: 0.5rem;
+    background-color: gv.$Yellow;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-family: gv.$BubbleGumRegular;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    margin: 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 70%;
-    text-align: center;
-}
-
-.props {
-    display: flex;
-    flex-direction: row;
-    margin: 2rem;
-}
-
-.question{
-    color: black;
-    font-size: gv.$font-size-large;
-    font-family: gv.$BubbleGumRegular;
-    align-self: center;
-}
-
-.answerBtn {
-    margin-top: 2rem;
-    padding-left: 4rem;
-    padding-right: 4rem;
-    background-color: gv.$Yellow;
-    font-size: gv.$font-size-medium;
-    font-family: gv.$BubbleGumRegular;
-    &:hover{
-        background-color: gv.$Red;
-        transform: scale(1.1);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    
+    &:hover {
+      background-color: gv.$Red;
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
-}
 
-.questionImage{
-    height: 10rem;
-    width: auto;
-    border-radius: 10%;
-    object-fit: cover;
-    fill: gv.$Blue;
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  .correctAnswer {
+    color: black;
+    width: calc(45% - 0.5rem);
+    max-width: 200px;
+    padding: 0.5rem;
+    background-color: gv.$GreenDark !important;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-family: gv.$BubbleGumRegular;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    margin: 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .wrongAnswer {
+    color: black;
+    width: calc(45% - 0.5rem);
+    max-width: 200px;
+    padding: 0.5rem;
+    background-color: gv.$Red !important;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-family: gv.$BubbleGumRegular;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    margin: 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+
+
+@media (max-width: 768px) {
+  .gameContainer {
+    padding-top: 3rem;
+  }
+
+  .answerBtn, .wrongAnswer, .correctAnswer {
+    flex: 1 1 100%;
+    padding: 0.8rem;
+    margin: 0.5rem;
+  }
+
+  .question{
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .imageContainer img {
+    width: 90%;
+    max-width: 250px;
+  }
 }

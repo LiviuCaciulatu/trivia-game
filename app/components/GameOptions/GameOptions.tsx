@@ -13,9 +13,13 @@ interface GameOptionsProps {
   onDifficultySelect: (difficulty: string) => void;
 }
 
-const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect }) => {
+const GameOptions: React.FC<GameOptionsProps> = ({
+  onBack,
+  onDifficultySelect,
+}) => {
   const { language } = useLanguage();
-  const translations = language === "ro" ? roTranslations.gameOptions : enTranslations.gameOptions;
+  const translations =
+    language === "ro" ? roTranslations.gameOptions : enTranslations.gameOptions;
 
   const difficultyOptions = [
     { key: "easy", label: translations.easy },
@@ -23,8 +27,9 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
     { key: "hard", label: translations.hard },
   ];
 
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<string>("easy");
   const [selectedDifficultyLabel, setSelectedDifficultyLabel] = useState(translations.easy);
+  
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -36,9 +41,11 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
     }, 500);
   };
 
-  const handleDifficultyChange = (difficultyKey: string, difficultyLabel: string) => {
-    console.log("Difficulty selected:", difficultyKey);
-    setSelectedDifficulty(difficultyKey); 
+  const handleDifficultyChange = (
+    difficultyKey: string,
+    difficultyLabel: string
+  ) => {
+    setSelectedDifficulty(difficultyKey);
     setSelectedDifficultyLabel(difficultyLabel);
     onDifficultySelect(difficultyKey);
     setIsDropdownOpen(false);
@@ -67,19 +74,21 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
           <span>{error}</span>
         </div>
       )}
-        <div className={style.logo}>
-          <Image
-            width={70}
-            height={70}
-            src="/svg/Logo-4.svg"
-            alt="about us"
-            className={style.logoImg}
-          />
-          <h1 className={style.logoName}>Trivia</h1>
-        </div>
+      <div className={style.logo}>
+        <Image
+          width={70}
+          height={70}
+          src="/svg/Logo-4.svg"
+          alt="about us"
+          className={style.logoImg}
+        />
+        <h1 className={style.logoName}>Trivia</h1>
+      </div>
       <div className={style.difficulty}>
-        <div className={`${style.difficultySelector} dropdown dropdown-right`}>
-          <div className={style.difficultyTitle}>{translations.selectDifficulty}: </div>
+        <div className={style.difficultyTitle}>
+          {translations.selectDifficulty}:{" "}
+        </div>
+        <div className={`${style.difficultySelector} dropdown`}>
           <div
             tabIndex={0}
             role="button"
@@ -97,7 +106,9 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
                 <li key={option.key}>
                   <a
                     className={style.dropdownOption}
-                    onClick={() => handleDifficultyChange(option.key, option.label)}
+                    onClick={() =>
+                      handleDifficultyChange(option.key, option.label)
+                    }
                   >
                     {option.label}
                   </a>
@@ -108,7 +119,10 @@ const GameOptions: React.FC<GameOptionsProps> = ({ onBack, onDifficultySelect })
         </div>
       </div>
 
-      <button className={`${style.backButton} btn btn-info`} onClick={handleStartButtonClick}>
+      <button
+        className={`${style.backButton} btn btn-info`}
+        onClick={handleStartButtonClick}
+      >
         {translations.startGame}
       </button>
 
