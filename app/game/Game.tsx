@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import style from "./style.module.scss";
-import Navbar from "../components/Navbar/Navbar";
+// import Navbar from "../components/Navbar/Navbar";
 import { GameProvider } from "../context/GameContext";
 import GameComponent from "../components/GameComponent/GameComponent";
 import { useUser } from "../context/UserContext";
@@ -34,7 +34,7 @@ const Game = () => {
   return (
     <div className={style.container}>
       <GameProvider updateUserContext={updateUserContext} difficulty={selectedDifficulty}>
-        <Navbar />
+        {/* <Navbar /> */}
         <GameComponent />
       </GameProvider>
     </div>
